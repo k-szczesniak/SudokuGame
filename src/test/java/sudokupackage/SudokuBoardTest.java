@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
-
     @Test
     public void TestBoardRepeats() {
         SudokuBoard s1 = new SudokuBoard();
