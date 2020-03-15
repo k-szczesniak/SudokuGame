@@ -1,6 +1,7 @@
-package SudokuPackage;
+package sudokupackage;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
@@ -22,7 +23,4 @@ class SudokuBoardTest {
         }
         assertEquals(equal, false);
     }
-
-
-
 }
