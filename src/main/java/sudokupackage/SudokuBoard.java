@@ -5,9 +5,8 @@ public class SudokuBoard {
 
     private int[][] board = new int[9][9];
 
-    private boolean isSafe(int position) {
-        int row = position / 9;
-        int col = position % 9;
+    private boolean isSafe(int row, int col) {
+
         for (int i = 0; i < row; i++) {
             if (board[row][col] == board[i][col]) {
                 return false;
@@ -24,7 +23,7 @@ public class SudokuBoard {
             for (int j = 0; j < 3; j++) {
                 int realRow = squareRow * 3 + i;
                 int realCol = squareCol * 3 + j;
-                if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < position) {
+                if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < 9*row +col) {
                     return false;
                 }
             }
@@ -34,36 +33,47 @@ public class SudokuBoard {
 
     public void fillBoard() {
         Random rand = new Random();
-        int[] randNumbers = new int[81];
+        int[][] randNumbers = new int[9][9];
 
-        for (int i = 0; i < 81; i++) {
-            boolean safe = false;
-            int row = i / 9;
-            int col = i % 9;
-            if (randNumbers[i] == 0) {
-                randNumbers[i] = rand.nextInt(9) + 1;
-                board[row][col] = randNumbers[i];
-                do {
-                    if (isSafe(i)) {
-                        safe = true;
-                        break;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                boolean safe = false;
+                if (randNumbers[i][j] == 0) {
+                    randNumbers[i][j] = rand.nextInt(9) + 1;
+                    board[i][j] = randNumbers[i][j];
+                    do {
+                        if (isSafe(i,j)) {
+                            safe = true;
+                            break;
+                        }
+                        board[i][j] = board[i][j] % 9 + 1;
                     }
-                    board[row][col] = board[row][col] % 9 + 1;
-                }
-                while (board[row][col] != randNumbers[i]);
-            } else {
-                board[row][col] = board[row][col] % 9 + 1;
-                while (board[row][col] != randNumbers[i]) {
-                    if (isSafe(i)) {
-                        safe = true;
-                        break;
+                    while (board[i][j] != randNumbers[i][j]);
+                } else {
+                    board[i][j] = board[i][j] % 9 + 1;
+                    while (board[i][j] != randNumbers[i][j]) {
+                        if (isSafe(i,j)) {
+                            safe = true;
+                            break;
+                        }
+                        board[i][j] = board[i][j] % 9 + 1;
                     }
-                    board[row][col] = board[row][col] % 9 + 1;
                 }
-            }
-            if (!safe) {
-                randNumbers[i] = board[row][col]= 0;
-                i -= 2;
+                if (!safe) {
+                    randNumbers[i][j] = 0;
+                    board[i][j] = 0;
+                    if(j==0){
+                        j=8;
+                        i-=1;
+                    }
+                    else if(j==1){
+                        i-=1;
+                        j=9;
+                    }
+                    else{
+                        j-=2;
+                    }
+                }
             }
         }
     }
