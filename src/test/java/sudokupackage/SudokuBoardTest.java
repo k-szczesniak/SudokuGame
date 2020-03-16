@@ -22,4 +22,46 @@ class SudokuBoardTest {
         }
         assertEquals(equal, false);
     }
+
+    @Test
+    public void TestCorrectFillBoard() {
+        SudokuBoard board = new SudokuBoard();
+        board.fillBoard();
+
+        //check row
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                for (int index = col + 1; index < 9; index++) {
+                    if (board.getBoard()[row][col] == board.getBoard()[row][index]) {
+                        fail("Row error"); //fail method from junit assertions
+                    }
+//                    assertNotEquals(board.getBoard()[row][col], board.getBoard()[row][index]);
+                }
+            }
+        }
+
+        //check column
+        for (int col = 0; col < 9; col++) {
+            for (int row = 0; row < 9; row++) {
+                for (int index = row + 1; index < 9; index++) {
+                    if (board.getBoard()[row][col] == board.getBoard()[index][col]) {
+                        fail("Column error");
+                    }
+//                    assertNotEquals(board.getBoard()[row][col], board.getBoard()[index][col]);
+                }
+            }
+        }
+
+        //checkbox
+//        for (int row = 0; row < 9; row += 3) {
+//            for (int col = 0; col < 9; col += 3) {
+//                for (int r = row; r < row + 3; r++) {
+//                    for (int c = col; c < col + 3; c++) {
+//                        if()
+//                    }
+//                    assertNotEquals(board.getBoard()[row][col], board.getBoard()[index][col]);
+//                }
+//            }
+//        }
+    }
 }
