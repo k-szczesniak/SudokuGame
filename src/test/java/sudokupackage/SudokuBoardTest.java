@@ -1,9 +1,7 @@
 package sudokupackage;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.security.auth.login.FailedLoginException;
 import java.util.HashSet;
 import java.util.Set;
 
