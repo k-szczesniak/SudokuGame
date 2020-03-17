@@ -18,12 +18,11 @@ public class SudokuBoard {
                 return false;
             }
         }
-        int squareRow = row / 3;
-        int squareCol = col / 3;
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int realRow = squareRow * 3 + i;
-                int realCol = squareCol * 3 + j;
+                int realRow = row - (row % 3) + i;
+                int realCol = col - (col % 3) + j;
                 if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < 9 * row + col) {
                     return false;
                 }
@@ -47,17 +46,17 @@ public class SudokuBoard {
                             safe = true;
                             break;
                         }
-                        board[i][j] = board[i][j] % 9 + 1;
+                        board[i][j] = nextNumber(i, j);
                     }
                     while (board[i][j] != randNumbers[i][j]);
                 } else {
-                    board[i][j] = board[i][j] % 9 + 1;
+                    board[i][j] = nextNumber(i, j);
                     while (board[i][j] != randNumbers[i][j]) {
                         if (isSafe(i, j)) {
                             safe = true;
                             break;
                         }
-                        board[i][j] = board[i][j] % 9 + 1;
+                        board[i][j] = nextNumber(i, j);
                     }
                 }
                 if (!safe) {
@@ -75,6 +74,10 @@ public class SudokuBoard {
                 }
             }
         }
+    }
+
+    private int nextNumber(int i, int j){
+        return board[i][j] % 9 + 1;
     }
 
     public int[][] getBoard() {

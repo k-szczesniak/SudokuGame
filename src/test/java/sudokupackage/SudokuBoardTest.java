@@ -67,5 +67,4 @@ class SudokuBoardTest {
         assertEquals(equal, false);
     }
 
-
 }
