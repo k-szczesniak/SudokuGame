@@ -76,7 +76,7 @@ public class SudokuBoard {
         }
     }
 
-    private int nextNumber(int i, int j){
+    private int nextNumber(int i, int j) {
         return board[i][j] % 9 + 1;
     }
 
