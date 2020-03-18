@@ -21,9 +21,9 @@ public class SudokuBoard {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int realRow = row - (row % 3) + i;
-                int realCol = col - (col % 3) + j;
-                if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < 9 * row + col) {
+                int realRow = (row / 3) * 3 + i;
+                int realCol = (col / 3) * 3 + j;
+                if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < row * 9 + col) {
                     return false;
                 }
             }
@@ -63,11 +63,11 @@ public class SudokuBoard {
                     randNumbers[i][j] = 0;
                     board[i][j] = 0;
                     if (j == 0) {
-                        j = 8;
+                        j = 7;
                         i -= 1;
                     } else if (j == 1) {
                         i -= 1;
-                        j = 9;
+                        j = 8;
                     } else {
                         j -= 2;
                     }
@@ -80,8 +80,31 @@ public class SudokuBoard {
         return board[i][j] % 9 + 1;
     }
 
-    public int[][] getBoard() {
-        return board;
+    public int[][] getCopyOfBoard() {
+        int[][] copyOfboard = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                copyOfboard[i][j] = board[i][j];
+            }
+        }
+        return copyOfboard;
     }
-    
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public boolean equals(final SudokuBoard object) {
+        boolean equal = true;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.board[i][j] != object.board[i][j]) {
+                    equal = false;
+                }
+            }
+        }
+        return equal;
+    }
+
 }
