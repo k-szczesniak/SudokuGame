@@ -1,22 +1,10 @@
 package sudokupackage;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class SudokuBoard {
 
     private int[][] board = new int[9][9];
-
-    public SudokuBoard() {
-    }
-
-    public SudokuBoard(final SudokuBoard b) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                this.board[i][j] = b.board[i][j];
-            }
-        }
-    }
 
     private boolean isSafe(int row, int col) {
 
@@ -110,7 +98,7 @@ public class SudokuBoard {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SudokuBoard that = new SudokuBoard((SudokuBoard) o);
+        SudokuBoard that = (SudokuBoard) o;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (this.board[i][j] != that.board[i][j]) {
@@ -121,28 +109,9 @@ public class SudokuBoard {
         return true;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Arrays.hashCode(board);
-//    }
-
-
     @Override
     public int hashCode() {
         return super.hashCode();
     }
-//
-//    public boolean equals(final SudokuBoard object) {
-//        boolean equal = true;
-//        int[][] that = object.getCopyOfBoard();
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (this.board[i][j] != that[i][j]) {
-//                    equal = false;
-//                }
-//            }
-//        }
-//        return equal;
-//    }
 
 }
