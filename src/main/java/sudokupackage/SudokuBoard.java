@@ -15,6 +15,52 @@ public class SudokuBoard {
         this.board[x][y] = value;
     }
 
+    private boolean checkRows() {
+        for (int row = 0; row < 9; row++) {
+            Set<Integer> set = new HashSet<Integer>();
+            for (int col = 0; col < 9; col++) {
+                if (set.add(this.get(row, col)) == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkColumns() {
+        for (int col = 0; col < 9; col++) {
+            Set<Integer> set = new HashSet<Integer>();
+            for (int row = 0; row < 9; row++) {
+                if (set.add(this.get(row, col)) == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkSquares() {
+        for (int row = 0; row < 9; row += 3) {
+            for (int col = 0; col < 9; col += 3) {
+                Set<Integer> set = new HashSet<Integer>();
+                for (int r = row; r < row + 3; r++) {
+                    for (int c = col; c < col + 3; c++) {
+                        if (set.add(this.get(r, c)) == false) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkBoard() {
+        return this.checkRows()
+                && this.checkColumns()
+                && this.checkSquares();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
