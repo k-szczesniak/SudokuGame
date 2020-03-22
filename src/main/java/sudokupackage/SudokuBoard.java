@@ -6,6 +6,7 @@ import java.util.Set;
 public class SudokuBoard {
 
     private int[][] board = new int[9][9];
+    private SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
 
     public int get(int x, int y) {
         return board[x][y];
@@ -19,7 +20,7 @@ public class SudokuBoard {
         for (int row = 0; row < 9; row++) {
             Set<Integer> set = new HashSet<Integer>();
             for (int col = 0; col < 9; col++) {
-                if (set.add(this.get(row, col)) == false) {
+                if (!set.add(this.get(row, col))) {
                     return false;
                 }
             }
@@ -31,7 +32,7 @@ public class SudokuBoard {
         for (int col = 0; col < 9; col++) {
             Set<Integer> set = new HashSet<Integer>();
             for (int row = 0; row < 9; row++) {
-                if (set.add(this.get(row, col)) == false) {
+                if (!set.add(this.get(row, col))) {
                     return false;
                 }
             }
@@ -45,7 +46,7 @@ public class SudokuBoard {
                 Set<Integer> set = new HashSet<Integer>();
                 for (int r = row; r < row + 3; r++) {
                     for (int c = col; c < col + 3; c++) {
-                        if (set.add(this.get(r, c)) == false) {
+                        if (!set.add(this.get(r, c))) {
                             return false;
                         }
                     }
@@ -59,6 +60,10 @@ public class SudokuBoard {
         return this.checkRows()
                 && this.checkColumns()
                 && this.checkSquares();
+    }
+
+    public void solveGame() {
+        sudokuSolver.solve(this);
     }
 
     @Override
