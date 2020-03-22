@@ -12,12 +12,13 @@ class SudokuBoardTest {
     @Test
     public void TestCorrectFillBoardCheckRows() {
         SudokuBoard board = new SudokuBoard();
-        board.fillBoard();
+        BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
+        solver.solve(board);
 
         for (int row = 0; row < 9; row++) {
             Set<Integer> set = new HashSet<Integer>();
             for (int col = 0; col < 9; col++) {
-                if (set.add(board.getCopyOfBoard()[row][col]) == false) {
+                if (set.add(board.get(row, col)) == false) {
                     fail("Row error");
                 }
             }
