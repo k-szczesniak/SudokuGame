@@ -23,7 +23,8 @@ public class SudokuBoard {
             for (int j = 0; j < 3; j++) {
                 int realRow = (row / 3) * 3 + i;
                 int realCol = (col / 3) * 3 + j;
-                if (board[realRow][realCol] == board[row][col] && (realRow * 9 + realCol) < row * 9 + col) {
+                if (board[realRow][realCol] == board[row][col]
+                        && (realRow * 9 + realCol) < row * 9 + col) {
                     return false;
                 }
             }
@@ -47,8 +48,7 @@ public class SudokuBoard {
                             break;
                         }
                         board[i][j] = nextNumber(i, j);
-                    }
-                    while (board[i][j] != randNumbers[i][j]);
+                    } while (board[i][j] != randNumbers[i][j]);
                 } else {
                     board[i][j] = nextNumber(i, j);
                     while (board[i][j] != randNumbers[i][j]) {
