@@ -15,7 +15,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestCheckRows() {
+    public void TestCheckBoard() {
         SudokuBoard board = new SudokuBoard();
         board.solveGame();
         assertTrue(board.checkBoard());
@@ -32,4 +32,19 @@ class SudokuBoardTest {
         assertEquals(s1.equals(s2), false);
     }
 
+    @Test
+    public void TestEqualsMethod() {
+        SudokuBoard s1 = new SudokuBoard();
+        SudokuBoard s2 = s1;
+        SudokuBoard s3 = null;
+        assertTrue(s1.equals(s2));
+        assertFalse(s1.equals(s3));
+    }
+
+    @Test
+    public void TestHashCode() {
+        SudokuBoard s1 = new SudokuBoard();
+        SudokuBoard s2 = s1;
+        assertEquals(s1.hashCode(),s2.hashCode());
+    }
 }
