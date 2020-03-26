@@ -1,26 +1,51 @@
 package sudokupackage;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class SudokuBoard {
 
     private int[][] board = new int[9][9];
-    private SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
+    private SudokuSolver sudokuSolver;
+
+    public SudokuBoard(SudokuSolver sudokusolver) {
+        this.sudokuSolver = sudokusolver;
+    }
 
     public int get(int x, int y) {
         return board[x][y];
     }
 
     public void set(int x, int y, int value) {
-        this.board[x][y] = value;
+        if (this.checkBoard(x, y, value) && value > 0 && value < 10) {
+            board[x][y] = value;
+        } else {
+            board[x][y] = 0;
+        }
     }
 
-    private boolean checkRows() {
-        for (int row = 0; row < 9; row++) {
-            Set<Integer> set = new HashSet<Integer>();
-            for (int col = 0; col < 9; col++) {
-                if (!set.add(this.get(row, col))) {
+    private boolean checkRow(int row, int col, int value) {
+        for (int i = 0; i < 9; i++) {
+            if (value == board[row][i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkColumn(int row, int col, int value) {
+        for (int i = 0; i < 9; i++) {
+            if (value == board[i][col]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkSquare(int row, int col, int value) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int realRow = (row / 3) * 3 + i;
+                int realCol = (col / 3) * 3 + j;
+                if (board[realRow][realCol] == value
+                        && (realRow * 9 + realCol) < row * 9 + col) {
                     return false;
                 }
             }
@@ -28,38 +53,10 @@ public class SudokuBoard {
         return true;
     }
 
-    private boolean checkColumns() {
-        for (int col = 0; col < 9; col++) {
-            Set<Integer> set = new HashSet<Integer>();
-            for (int row = 0; row < 9; row++) {
-                if (!set.add(this.get(row, col))) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean checkSquares() {
-        for (int row = 0; row < 9; row += 3) {
-            for (int col = 0; col < 9; col += 3) {
-                Set<Integer> set = new HashSet<Integer>();
-                for (int r = row; r < row + 3; r++) {
-                    for (int c = col; c < col + 3; c++) {
-                        if (!set.add(this.get(r, c))) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean checkBoard() {
-        return this.checkRows()
-                && this.checkColumns()
-                && this.checkSquares();
+    private boolean checkBoard(int row, int col, int value) {
+        return this.checkRow(row, col, value)
+                && this.checkColumn(row, col, value)
+                && this.checkSquare(row, col, value);
     }
 
     public void solveGame() {
