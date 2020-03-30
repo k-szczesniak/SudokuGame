@@ -2,28 +2,45 @@ package sudokupackage;
 
 public class SudokuBoard {
 
-    private int[][] board = new int[9][9];
+    private SudokuField[][] board = new SudokuField[9][9];
     private SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver sudokusolver) {
         this.sudokuSolver = sudokusolver;
-    }
-
-    public int get(int x, int y) {
-        return board[x][y];
-    }
-
-    public void set(int x, int y, int value) {
-        if (this.checkBoard(x, y, value) && value > 0 && value < 10) {
-            board[x][y] = value;
-        } else {
-            board[x][y] = 0;
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                board[i][j]=new SudokuField(0);
+            }
         }
     }
 
+    public int get(int x, int y) {
+        return board[x][y].getValue();
+    }
+
+    public void set(int x, int y, int value) {
+        board[x][y].setValue(value);
+    }
+
+//    public SudokuRow getRow(int row){
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     private boolean checkRow(int row, int col, int value) {
         for (int i = 0; i < 9; i++) {
-            if (value == board[row][i]) {
+            if (value == board[row][i].getValue()) {
                 return false;
             }
         }
@@ -32,7 +49,7 @@ public class SudokuBoard {
 
     private boolean checkColumn(int row, int col, int value) {
         for (int i = 0; i < 9; i++) {
-            if (value == board[i][col]) {
+            if (value == board[i][col].getValue()) {
                 return false;
             }
         }
@@ -44,7 +61,7 @@ public class SudokuBoard {
             for (int j = 0; j < 3; j++) {
                 int realRow = (row / 3) * 3 + i;
                 int realCol = (col / 3) * 3 + j;
-                if (board[realRow][realCol] == value
+                if (board[realRow][realCol].getValue() == value
                         && (realRow * 9 + realCol) < row * 9 + col) {
                     return false;
                 }
