@@ -5,6 +5,7 @@ public class SudokuBoard {
     private SudokuField[][] board = new SudokuField[9][9];
     private SudokuSolver sudokuSolver;
 
+
     public SudokuBoard(SudokuSolver sudokusolver) {
         this.sudokuSolver = sudokusolver;
         for (int i = 0; i < 9; i++) {
@@ -19,15 +20,17 @@ public class SudokuBoard {
     }
 
     public void set(int x, int y, int value) {
-        if (this.getRow(x).verify() &&
-                this.getColumn(y).verify() &&
-                this.getBox(x, y).verify()) {
-            board[x][y].setValue(value);
+        board[x][y].setValue(value);
+        if (!this.checkBoard(x, y)) {
+            board[x][y].setValue(0);
         }
     }
 
     public SudokuRow getRow(int row) {
         SudokuField[] fields = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            fields[i] = new SudokuField(0);
+        }
 
         for (int i = 0; i < 9; i++) {
             fields[i].setValue(board[row][i].getValue());
@@ -38,6 +41,9 @@ public class SudokuBoard {
 
     public SudokuColumn getColumn(int column) {
         SudokuField[] fields = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            fields[i] = new SudokuField(0);
+        }
 
         for (int i = 0; i < 9; i++) {
             fields[i].setValue(board[i][column].getValue());
@@ -48,56 +54,26 @@ public class SudokuBoard {
 
     public SudokuBox getBox(int row, int col) {
         SudokuField[] fields = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            fields[i] = new SudokuField(0);
+        }
 
+        int k = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 int realRow = (row / 3) * 3 + i;
                 int realCol = (col / 3) * 3 + j;
-                fields[i].setValue(board[realRow][realCol].getValue());
+                fields[k++].setValue(board[realRow][realCol].getValue());
             }
         }
         SudokuBox singleBox = new SudokuBox(fields);
-
         return singleBox;
     }
 
-
-    private boolean checkRow(int row, int col, int value) {
-        for (int i = 0; i < 9; i++) {
-            if (value == board[row][i].getValue()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkColumn(int row, int col, int value) {
-        for (int i = 0; i < 9; i++) {
-            if (value == board[i][col].getValue()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkSquare(int row, int col, int value) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                int realRow = (row / 3) * 3 + i;
-                int realCol = (col / 3) * 3 + j;
-                if (board[realRow][realCol].getValue() == value
-                        && (realRow * 9 + realCol) < row * 9 + col) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean checkBoard(int row, int col, int value) {
-        return this.checkRow(row, col, value)
-                && this.checkColumn(row, col, value)
-                && this.checkSquare(row, col, value);
+    private boolean checkBoard(int row, int col) {
+        return this.getRow(row).verify()
+                && this.getColumn(col).verify()
+                && this.getBox(row, col).verify();
     }
 
     public void solveGame() {
@@ -115,7 +91,7 @@ public class SudokuBoard {
         SudokuBoard that = (SudokuBoard) o;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (this.board[i][j] != that.board[i][j]) {
+                if (this.board[i][j].getValue() != that.board[i][j].getValue()) {
                     return false;
                 }
             }
@@ -127,4 +103,5 @@ public class SudokuBoard {
     public int hashCode() {
         return super.hashCode();
     }
+
 }
