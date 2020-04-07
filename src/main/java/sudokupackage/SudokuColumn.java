@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SudokuColumn extends SudokuParts {
 
-    public SudokuColumn(List<SudokuField> values){
+    public SudokuColumn(List<SudokuField> values) {
         super(values);
     }
 }

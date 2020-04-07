@@ -8,7 +8,7 @@ import java.util.Set;
 public abstract class SudokuParts {
     private List<SudokuField> values;
 
-    public SudokuParts(List<SudokuField> values){
+    public SudokuParts(List<SudokuField> values) {
         this.values = values;
     }
 

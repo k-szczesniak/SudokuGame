@@ -83,8 +83,12 @@ class SudokuBoardTest {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = s1;
         SudokuBoard s3 = null;
+        SudokuBoard s4 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuField sudokuField = new SudokuField(1);
         assertTrue(s1.equals(s2));
         assertFalse(s1.equals(s3));
+        assertTrue(s1.equals(s4));
+        assertFalse(s1.equals(sudokuField));
     }
 
     @Test

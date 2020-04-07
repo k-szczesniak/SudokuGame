@@ -1,7 +1,9 @@
 package sudokupackage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.util.*;
 
 public class SudokuBoard {
 
@@ -15,7 +17,7 @@ public class SudokuBoard {
         this.sudokuSolver = sudokusolver;
 
         board = Arrays.asList(new List[9]);
-        for(int i=0; i<9; i++){
+        for (int i = 0; i < 9; i++) {
             board.set(i, Arrays.asList(new SudokuField[9]));
         }
         for (int i = 0; i < 9; i++) {
@@ -25,15 +27,15 @@ public class SudokuBoard {
         }
 
         SudokuRow[] sudokuRows = new SudokuRow[9];
-        for(int i=0; i<9; i++){
+        for (int i = 0; i < 9; i++) {
             sudokuRows[i] = new SudokuRow(board.get(i));
         }
         rows = new ArrayList<>(Arrays.asList(sudokuRows));
 
         SudokuColumn[] sudokuColumns = new SudokuColumn[9];
-        for(int i=0; i<9; i++){
+        for (int i = 0; i < 9; i++) {
             List<SudokuField> col = new ArrayList<>();
-            for(int j=0; j<9; j++){
+            for (int j = 0; j < 9; j++) {
                 col.add(j, board.get(j).get(i));
             }
             sudokuColumns[i] = new SudokuColumn(col);
@@ -79,7 +81,7 @@ public class SudokuBoard {
     }
 
     public SudokuBox getBox(int row, int col) {
-        return boxes.get((col/3)+3*(row/3));
+        return boxes.get((col / 3) + 3 * (row / 3));
     }
 
     private boolean checkBoard(int row, int col) {
@@ -114,15 +116,6 @@ public class SudokuBoard {
     @Override
     public int hashCode() {
         return super.hashCode();
-    }
-
-    public void printBoard() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(board.get(i).get(j).getValue() + " ");
-            }
-            System.out.println();
-        }
     }
 
 }

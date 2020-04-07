@@ -11,7 +11,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
 
         Random rand = new Random();
         List<List<Integer>> randNumbers = Arrays.asList(new List[9]);
-        for(int i=0; i<9; i++){
+        for (int i = 0; i < 9; i++) {
             randNumbers.set(i, Arrays.asList(new Integer[9]));
         }
         for (int i = 0; i < 9; i++) {
