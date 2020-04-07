@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class SudokuParts {
-    protected SudokuField[] values;
+    private SudokuField[] values;
 
     public SudokuParts(SudokuField[] values) {
         this.values = values;

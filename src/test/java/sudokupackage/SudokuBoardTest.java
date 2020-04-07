@@ -17,6 +17,8 @@ class SudokuBoardTest {
         assertEquals(board.get(0, 0), 9);
         board.set(0, 1, 9);
         assertEquals(board.get(0, 1), 0);
+        board.set(0, 1, 10);
+        assertEquals(board.get(0, 1), 0);
     }
 
     @Test
