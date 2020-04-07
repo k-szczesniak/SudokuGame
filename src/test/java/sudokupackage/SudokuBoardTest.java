@@ -93,4 +93,5 @@ class SudokuBoardTest {
         SudokuBoard s2 = s1;
         assertEquals(s1.hashCode(),s2.hashCode());
     }
+
 }

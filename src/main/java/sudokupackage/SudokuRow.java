@@ -1,9 +1,13 @@
 package sudokupackage;
 
+import java.util.List;
+
 public class SudokuRow extends SudokuParts {
 
-    public SudokuRow(SudokuField[] values) {
+    public SudokuRow(List<SudokuField> values) {
         super(values);
     }
+
+
 
 }
