@@ -7,11 +7,11 @@ import java.util.List;
 
 public class SudokuBoard {
 
-    private List<List<SudokuField>> board;
+    private final List<List<SudokuField>> board;
     private SudokuSolver sudokuSolver;
-    private List<SudokuRow> rows;
-    private List<SudokuColumn> columns;
-    private List<SudokuBox> boxes;
+    private final List<SudokuRow> rows;
+    private final List<SudokuColumn> columns;
+    private final List<SudokuBox> boxes;
 
     public SudokuBoard(SudokuSolver sudokusolver) {
         this.sudokuSolver = sudokusolver;
@@ -40,7 +40,7 @@ public class SudokuBoard {
             }
             sudokuColumns[i] = new SudokuColumn(col);
         }
-        columns = new ArrayList<SudokuColumn>(Arrays.asList(sudokuColumns));
+        columns = new ArrayList<>(Arrays.asList(sudokuColumns));
 
         int k = 0;
         SudokuBox[] sudokuBoxes = new SudokuBox[9];
@@ -104,10 +104,8 @@ public class SudokuBoard {
         }
         SudokuBoard that = (SudokuBoard) o;
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (this.board.get(i).get(j).getValue() != that.board.get(i).get(j).getValue()) {
-                    return false;
-                }
+            if (!this.getRow(i).equals(that.getRow(i))) {
+                return false;
             }
         }
         return true;
@@ -118,4 +116,12 @@ public class SudokuBoard {
         return super.hashCode();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder boardString = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            boardString.append(this.getRow(i).toString()).append("\n");
+        }
+        return boardString.toString();
+    }
 }

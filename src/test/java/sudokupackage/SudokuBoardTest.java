@@ -95,7 +95,6 @@ class SudokuBoardTest {
     public void TestHashCode() {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = s1;
-        assertEquals(s1.hashCode(),s2.hashCode());
+        assertEquals(s1.hashCode(), s2.hashCode());
     }
-
 }

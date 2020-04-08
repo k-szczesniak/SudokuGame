@@ -4,10 +4,8 @@ import java.util.List;
 
 public class SudokuRow extends SudokuParts {
 
-    public SudokuRow(List<SudokuField> values) {
+    public SudokuRow(final List<SudokuField> values) {
         super(values);
     }
-
-
 
 }
