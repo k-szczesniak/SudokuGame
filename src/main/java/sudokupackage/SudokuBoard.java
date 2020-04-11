@@ -13,9 +13,7 @@ public class SudokuBoard {
     private List<SudokuColumn> columns;
     private List<SudokuBox> boxes;
 
-    public SudokuBoard(SudokuSolver sudokusolver) {
-        this.sudokuSolver = sudokusolver;
-
+    {
         board = Arrays.asList(new List[9]);
         for (int i = 0; i < 9; i++) {
             board.set(i, Arrays.asList(new SudokuField[9]));
@@ -28,6 +26,10 @@ public class SudokuBoard {
         initRows();
         initColumns();
         initBoxes();
+    }
+
+    public SudokuBoard(SudokuSolver sudokusolver) {
+        this.sudokuSolver = sudokusolver;
     }
 
     public int get(int x, int y) {

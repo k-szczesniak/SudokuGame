@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuBoardTest {
 
     @Test
-    public void TestGetterSetter () {
+    public void TestGetterSetter() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         assertEquals(board.get(0, 0), 0);
         board.set(0, 0, 9);
@@ -96,5 +96,20 @@ class SudokuBoardTest {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = s1;
         assertEquals(s1.hashCode(), s2.hashCode());
+    }
+
+    @Test
+    public void TestToString() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        String line = "0 0 0 0 0 0 0 0 0 ";
+
+        String result = "";
+        for (int i = 0; i < 9; i++) {
+            result += line;
+            result += '\n';
+        }
+
+        assertEquals(sudokuBoard.toString(), result);
+
     }
 }
