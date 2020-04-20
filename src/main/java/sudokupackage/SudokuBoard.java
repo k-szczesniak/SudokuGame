@@ -1,12 +1,13 @@
 package sudokupackage;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class SudokuBoard {
+public class SudokuBoard implements Serializable {
 
     private final List<List<SudokuField>> board;
     private SudokuSolver sudokuSolver;
