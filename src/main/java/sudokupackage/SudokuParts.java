@@ -1,6 +1,7 @@
 package sudokupackage;
 
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 
 
-public abstract class SudokuParts {
+public abstract class SudokuParts implements Serializable {
     private final List<SudokuField> values;
 
     public SudokuParts(final List<SudokuField> values) {
@@ -59,7 +60,4 @@ public abstract class SudokuParts {
                 .toHashCode();
     }
 
-    private SudokuField getField(int index) {
-        return values.get(index);
-    }
 }
