@@ -1,9 +1,10 @@
 package sudokupackage;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class SudokuBoard {
 
@@ -66,35 +67,37 @@ public class SudokuBoard {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public String toString() {
+        return new org.apache.commons.lang3.builder
+                .ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
+                .append("board", board)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         SudokuBoard that = (SudokuBoard) o;
-        for (int i = 0; i < 9; i++) {
-            if (!this.getRow(i).equals(that.getRow(i))) {
-                return false;
-            }
-        }
-        return true;
+
+        return new org.apache.commons.lang3.builder.EqualsBuilder()
+                .append(rows, that.rows)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
+                .append(rows)
+                .toHashCode();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder boardString = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            boardString.append(this.getRow(i).toString()).append("\n");
-        }
-        return boardString.toString();
-    }
 
     private void initRows() {
         SudokuRow[] sudokuRows = new SudokuRow[9];

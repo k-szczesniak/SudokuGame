@@ -1,6 +1,6 @@
 package sudokupackage;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class SudokuField {
     private int value;
@@ -21,9 +21,10 @@ public class SudokuField {
 
     @Override
     public String toString() {
-        StringBuilder fieldString = new StringBuilder();
-        fieldString.append(this.value).toString();
-        return fieldString.toString();
+        return new org.apache.commons.lang3.builder
+                .ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
+                .append("value", value)
+                .toString();
     }
 
     @Override
@@ -31,17 +32,24 @@ public class SudokuField {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         SudokuField that = (SudokuField) o;
-        return this.getValue() == that.getValue();
+
+        return new org.apache.commons.lang3.builder.EqualsBuilder()
+                .append(value, that.value)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
+                .append(value)
+                .toHashCode();
     }
+
 }
 

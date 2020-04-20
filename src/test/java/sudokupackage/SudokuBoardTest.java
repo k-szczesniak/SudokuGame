@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuBoardTest {
 
     @Test
-    public void TestGetterSetter() {
+    public void testGetterSetter() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         assertEquals(board.get(0, 0), 0);
         board.set(0, 0, 9);
@@ -22,7 +22,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestCheckBoardCheckSquare() {
+    public void testCheckBoardCheckSquare() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         for (int row = 0; row < 9; row += 3) {
@@ -40,7 +40,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestCheckBoardCheckRows() {
+    public void testCheckBoardCheckRows() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         for (int row = 0; row < 9; row++) {
@@ -54,7 +54,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestCheckBoardCheckColumns() {
+    public void testCheckBoardCheckColumns() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         for (int col = 0; col < 9; col++) {
@@ -68,7 +68,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestBoardRepeats() {
+    public void testBoardRepeats() {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = new SudokuBoard(new BacktrackingSudokuSolver());
 
@@ -79,7 +79,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestEqualsMethod() {
+    public void testEqualsMethod() {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = s1;
         SudokuBoard s3 = null;
@@ -92,24 +92,16 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void TestHashCode() {
+    public void testHashCode() {
         SudokuBoard s1 = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard s2 = s1;
         assertEquals(s1.hashCode(), s2.hashCode());
     }
 
     @Test
-    public void TestToString() {
+    public void testToString() {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        String line = "0 0 0 0 0 0 0 0 0 ";
-
-        String result = "";
-        for (int i = 0; i < 9; i++) {
-            result += line;
-            result += '\n';
-        }
-
+        String result = "[[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]";
         assertEquals(sudokuBoard.toString(), result);
-
     }
 }

@@ -3,6 +3,7 @@ package sudokupackage;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,7 @@ class SudokuPartsTest {
     }
 
     @Test
-    void testHashCode() {
+    public void testHashCode() {
         List<SudokuField> listFields = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             listFields.add(new SudokuField(i));
@@ -54,9 +55,9 @@ class SudokuPartsTest {
             listFields.add(new SudokuField(i));
         }
         SudokuRow row1 = new SudokuRow(listFields);
-        String result = "0 1 2 3 4 5 6 7 8 ";
-
-        assertEquals(row1.toString(), result);
+//        String result = "0 1 2 3 4 5 6 7 8 ";
+        List<Integer> result = Arrays.asList(0,1,2,3,4,5,6,7,8);
+        assertEquals(row1.toString(), result.toString());
 
     }
 }

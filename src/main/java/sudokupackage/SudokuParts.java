@@ -1,9 +1,12 @@
 package sudokupackage;
 
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+
 
 public abstract class SudokuParts {
     private final List<SudokuField> values;
@@ -26,11 +29,10 @@ public abstract class SudokuParts {
 
     @Override
     public String toString() {
-        StringBuilder valuesString = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            valuesString.append(values.get(i).toString()).append(" ");
-        }
-        return valuesString.toString();
+        return new org.apache.commons.lang3.builder
+                .ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
+                .append("values", values)
+                .toString();
     }
 
     @Override
@@ -38,22 +40,23 @@ public abstract class SudokuParts {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         SudokuParts that = (SudokuParts) o;
-        for (int i = 0; i < 9; i++) {
-            if (!values.get(i).equals(that.getField(i))) {
-                return false;
-            }
-        }
-        return true;
+
+        return new org.apache.commons.lang3.builder.EqualsBuilder()
+                .append(values, that.values)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(values);
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
+                .append(values)
+                .toHashCode();
     }
 
     private SudokuField getField(int index) {
