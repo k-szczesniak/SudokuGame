@@ -1,7 +1,7 @@
 package sudokupackage;
 
 public interface Dao<T> {
-    public T read();
+    public T read() throws Exception;
 
-    public void write(T obj);
+    public void write(T obj) throws Exception;
 }
