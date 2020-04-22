@@ -13,8 +13,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     private static final long serialVersionUID = 42L;
 
     private String fileName;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
 
     public FileSudokuBoardDao(String fileName) {
         this.fileName = fileName;
@@ -22,20 +20,18 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     @Override
     public SudokuBoard read() throws Exception {
-        SudokuBoard obj = null;
         try (FileInputStream fOut = new FileInputStream(fileName)) {
-            ois = new ObjectInputStream(fOut);
-            obj = (SudokuBoard) ois.readObject();
+            ObjectInputStream ois = new ObjectInputStream(fOut);
+            return (SudokuBoard) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new IOException();
         }
-        return obj;
     }
 
     @Override
     public void write(final SudokuBoard obj) throws Exception {
         try (FileOutputStream fOut = new FileOutputStream(fileName)) {
-            oos = new ObjectOutputStream(fOut);
+            ObjectOutputStream oos = new ObjectOutputStream(fOut);
             oos.writeObject(obj);
         } catch (IOException e) {
             throw new IOException();
@@ -43,12 +39,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public void finalize() throws Throwable {
-        try {
-            oos.close();
-            ois.close();
-        } finally {
-            super.finalize();
-        }
+    public void close() throws Exception {
+
     }
 }
