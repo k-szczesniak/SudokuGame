@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static sudokupackage.SudokuBoardDaoFactory.getFileDao;
 
 class FileSudokuBoardDaoTest {
 
@@ -13,7 +12,7 @@ class FileSudokuBoardDaoTest {
     public void writeAndReadTest() throws Exception {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard sudokuBoard2;
-        Dao<SudokuBoard> fileSudokuBoardDao = getFileDao("SudokuBoardFile.txt");
+        Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao("SudokuBoardFile.txt");
         fileSudokuBoardDao.write(sudokuBoard);
 
         sudokuBoard2 = fileSudokuBoardDao.read();
@@ -22,7 +21,7 @@ class FileSudokuBoardDaoTest {
 
     @Test
     void testReadException() {
-        Dao<SudokuBoard> fileSudokuBoard = getFileDao("sudoku.txt");
+        Dao<SudokuBoard> fileSudokuBoard = SudokuBoardDaoFactory.getFileDao("sudoku.txt");
         assertThrows(IOException.class, () -> {
             SudokuBoard sudoku = fileSudokuBoard.read();
         });
@@ -30,7 +29,7 @@ class FileSudokuBoardDaoTest {
 
     @Test
     public void testWriteException() {
-        Dao<SudokuBoard> fileSudokuBoard = getFileDao("/sudoku:");
+        Dao<SudokuBoard> fileSudokuBoard = SudokuBoardDaoFactory.getFileDao("/sudoku:");
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         assertThrows(IOException.class, () -> {
             fileSudokuBoard.write(sudokuBoard);
