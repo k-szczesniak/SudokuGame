@@ -43,7 +43,7 @@ public class StartMenu {
             root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
             Stage stage = new Stage();
             stage.setTitle("New window");
-            stage.setScene(new Scene(root1, 450, 450));
+            stage.setScene(new Scene(root1, 600, 600));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
