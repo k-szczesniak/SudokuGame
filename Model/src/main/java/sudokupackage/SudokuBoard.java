@@ -7,13 +7,29 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class SudokuBoard implements Serializable {
+public class SudokuBoard implements Serializable, Cloneable, Comparable {
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 
     private final List<List<SudokuField>> board;
     private SudokuSolver sudokuSolver;
     private List<SudokuRow> rows;
     private List<SudokuColumn> columns;
     private List<SudokuBox> boxes;
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        SudokuBoard cloneBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                cloneBoard.set(i, j, this.get(i, j));
+            }
+        }
+        return cloneBoard;
+    }
 
     {
         board = Arrays.asList(new List[9]);

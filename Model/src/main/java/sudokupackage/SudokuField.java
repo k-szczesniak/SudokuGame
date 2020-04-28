@@ -3,7 +3,7 @@ package sudokupackage;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class SudokuField implements Serializable {
+public class SudokuField implements Serializable, Cloneable {
     private int value;
 
     public SudokuField(int value) {
@@ -18,6 +18,12 @@ public class SudokuField implements Serializable {
         if (value >= 0 && value < 10) {
             this.value = value;
         }
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        SudokuField cloneField = new SudokuField(this.getValue());
+        return cloneField;
     }
 
     @Override
