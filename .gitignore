@@ -1,2 +1,7 @@
 target/
 .idea/
+Dao/DaoProject.iml
+Model/ModelProject.iml
+View/ViewProject.iml
+SudokuGameProject.iml
+

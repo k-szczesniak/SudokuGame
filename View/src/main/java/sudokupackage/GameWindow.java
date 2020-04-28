@@ -1,4 +1,4 @@
 package sudokupackage;
 
-public class Controller {
+public class GameWindow {
 }

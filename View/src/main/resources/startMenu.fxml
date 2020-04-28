@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="350.0" prefWidth="480.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokupackage.StartMenu">
+   <children>
+      <AnchorPane fx:id="combobox" prefHeight="350.0" prefWidth="480.0">
+         <children>
+            <ComboBox fx:id="comboBox" layoutX="130.0" layoutY="127.0" prefHeight="26.0" prefWidth="221.0" promptText="Level of difficulty" />
+            <Button layoutX="153.0" layoutY="213.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="63.0" prefWidth="174.0" text="Start Game">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Label layoutX="80.0" layoutY="47.0" text="SUDOKU GAME">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
