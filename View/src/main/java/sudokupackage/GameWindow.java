@@ -1,15 +1,14 @@
 package sudokupackage;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.w3c.dom.ls.LSOutput;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class GameWindow {
 
@@ -29,14 +28,15 @@ public class GameWindow {
     }
 
     private SudokuBoard calculateHiddenPostions(SudokuBoard board, int counter) {
-        while(counter > 0) {
-            if(setOfPositions.add(rand.nextInt(81)))
+        while (counter > 0) {
+            if (setOfPositions.add(rand.nextInt(81))) {
                 counter--;
+            }
         }
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(setOfPositions.contains(9 * i +j)) {
-                    board.set(i,j,0);
+                if (setOfPositions.contains(9 * i + j)) {
+                    board.set(i, j, 0);
                 }
             }
         }
@@ -47,13 +47,14 @@ public class GameWindow {
         SudokuBoard cloneBoard = (SudokuBoard) board.clone();
         switch (choice) {
             case Easy:
-                return calculateHiddenPostions(cloneBoard,27);
+                return calculateHiddenPostions(cloneBoard, 27);
             case Medium:
                 return calculateHiddenPostions(cloneBoard, 45);
             case Hard:
                 return calculateHiddenPostions(cloneBoard, 63);
+            default:
+                return cloneBoard;
         }
-        return cloneBoard;
     }
 
     public void drawOnCanvas(GraphicsContext context) throws CloneNotSupportedException {
@@ -76,7 +77,6 @@ public class GameWindow {
 
         board.solveGame();
         SudokuBoard boardToDisplay = specifyLevel();
-//        specifyLevel();
 
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
