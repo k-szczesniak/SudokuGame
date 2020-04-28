@@ -58,6 +58,38 @@ class SudokuPartsTest {
 //        String result = "0 1 2 3 4 5 6 7 8 ";
         List<Integer> result = Arrays.asList(0,1,2,3,4,5,6,7,8);
         assertEquals(row1.toString(), result.toString());
+    }
 
+    @Test
+    public void testCloneSudokuRow() throws CloneNotSupportedException {
+        List<SudokuField> listFields = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            listFields.add(new SudokuField(i));
+        }
+        SudokuRow sudokuRow1 = new SudokuRow(listFields);
+        SudokuRow sudokuRow2 = (SudokuRow) sudokuRow1.clone();
+        assertTrue(sudokuRow1.equals(sudokuRow2));
+    }
+
+    @Test
+    public void testCloneSudokuColumn() throws CloneNotSupportedException {
+        List<SudokuField> listFields = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            listFields.add(new SudokuField(i));
+        }
+        SudokuColumn sudokuColumn1 = new SudokuColumn(listFields);
+        SudokuColumn sudokuColumn2 = (SudokuColumn) sudokuColumn1.clone();
+        assertTrue(sudokuColumn1.equals(sudokuColumn2));
+    }
+
+    @Test
+    public void testCloneSudokuBox() throws CloneNotSupportedException {
+        List<SudokuField> listFields = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            listFields.add(new SudokuField(i));
+        }
+        SudokuBox sudokuBox1 = new SudokuBox(listFields);
+        SudokuBox sudokuBox2 = (SudokuBox) sudokuBox1.clone();
+        assertTrue(sudokuBox1.equals(sudokuBox2));
     }
 }

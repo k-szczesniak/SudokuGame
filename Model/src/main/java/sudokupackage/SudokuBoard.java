@@ -7,12 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class SudokuBoard implements Serializable, Cloneable, Comparable {
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
+public class SudokuBoard implements Serializable, Cloneable {
 
     private final List<List<SudokuField>> board;
     private SudokuSolver sudokuSolver;

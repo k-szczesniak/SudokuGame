@@ -104,4 +104,11 @@ class SudokuBoardTest {
         String result = "[[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]";
         assertEquals(sudokuBoard.toString(), result);
     }
+
+    @Test
+    public void testClone() throws CloneNotSupportedException {
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard sudokuBoard2 = (SudokuBoard) sudokuBoard1.clone();
+        assertTrue(sudokuBoard1.equals(sudokuBoard2));
+    }
 }
