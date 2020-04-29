@@ -108,7 +108,8 @@ class SudokuBoardTest {
     @Test
     public void testClone() throws CloneNotSupportedException {
         SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoard sudokuBoard2 = (SudokuBoard) sudokuBoard1.clone();
+        SudokuBoard sudokuBoard2 = sudokuBoard1.clone();
         assertTrue(sudokuBoard1.equals(sudokuBoard2));
+        assertNotSame(sudokuBoard1,sudokuBoard2);
     }
 }

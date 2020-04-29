@@ -67,8 +67,9 @@ class SudokuPartsTest {
             listFields.add(new SudokuField(i));
         }
         SudokuRow sudokuRow1 = new SudokuRow(listFields);
-        SudokuRow sudokuRow2 = (SudokuRow) sudokuRow1.clone();
+        SudokuRow sudokuRow2 = sudokuRow1.clone();
         assertTrue(sudokuRow1.equals(sudokuRow2));
+        assertNotSame(sudokuRow1,sudokuRow2);
     }
 
     @Test
@@ -78,8 +79,9 @@ class SudokuPartsTest {
             listFields.add(new SudokuField(i));
         }
         SudokuColumn sudokuColumn1 = new SudokuColumn(listFields);
-        SudokuColumn sudokuColumn2 = (SudokuColumn) sudokuColumn1.clone();
+        SudokuColumn sudokuColumn2 = sudokuColumn1.clone();
         assertTrue(sudokuColumn1.equals(sudokuColumn2));
+        assertNotSame(sudokuColumn1,sudokuColumn2);
     }
 
     @Test
@@ -89,7 +91,8 @@ class SudokuPartsTest {
             listFields.add(new SudokuField(i));
         }
         SudokuBox sudokuBox1 = new SudokuBox(listFields);
-        SudokuBox sudokuBox2 = (SudokuBox) sudokuBox1.clone();
+        SudokuBox sudokuBox2 = sudokuBox1.clone();
         assertTrue(sudokuBox1.equals(sudokuBox2));
+        assertNotSame(sudokuBox1,sudokuBox2);
     }
 }

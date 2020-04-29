@@ -62,8 +62,9 @@ class SudokuFieldTest {
     @Test
     public void testClone() throws CloneNotSupportedException {
         SudokuField sudokuField1 = new SudokuField(5);
-        SudokuField sudokuField2 = (SudokuField) sudokuField1.clone();
+        SudokuField sudokuField2 = sudokuField1.clone();
         assertEquals(sudokuField1.getValue(), sudokuField2.getValue());
+        assertNotSame(sudokuField1,sudokuField2);
     }
 
 }
