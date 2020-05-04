@@ -58,12 +58,6 @@ public class GameWindow {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 TextField field = new TextField();
-                field.setMinSize(60, 60);
-                field.setFont(Font.font(24));
-                field.setAlignment(Pos.CENTER);
-                field.setOpacity(1);
-                field.setStyle("-fx-background-color: lightpink; -fx-cursor: hand; -fx-border-style: solid; " +
-                        "-fx-border-color: grey; -fx-border-width: 3px; -fx-border-radius: 4px");
                 if (boardToDisplay.get(i, j) != 0) {
                     field.setDisable(true);
                     field.setText(String.valueOf(boardToDisplay.get(i, j)));
