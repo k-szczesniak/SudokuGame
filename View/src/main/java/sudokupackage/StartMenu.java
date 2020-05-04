@@ -1,6 +1,7 @@
 package sudokupackage;
 
 import java.io.IOException;
+import java.lang.module.Configuration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -12,12 +13,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
 public class StartMenu {
 
     private static Levels choice;
+    public AnchorPane anchorChoice;
     private String language;
 
     @FXML
@@ -46,24 +49,37 @@ public class StartMenu {
         );
     }
 
+//    private void restartInLocale(Locale locale)
+//    {
+//        Locale.setDefault(locale);
+//        Configuration config = new Configuration();
+//        config.locale = locale;
+//        Resources resources = getResources();
+//        resources.updateConfiguration(config, resources.getDisplayMetrics());
+//        recreate();
+//    }
+    private Locale changeLocal() {
+        Locale locale = null;
+
+        this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
+        if (language.equals(bundle.getString("langEN"))) {
+            locale = new Locale("en");
+            Locale.setDefault(locale);
+        } else if (language.equals(bundle.getString("langPL"))) {
+            locale = new Locale("pl");
+            Locale.setDefault(locale);
+        }
+
+        return locale;
+    }
+
     @FXML
     private void handleButtonSetLangAction(ActionEvent actionEvent) throws IOException {
         try {
-            this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
-
-            if (language.equals(bundle.getString("langEN"))) {
-                Locale.setDefault(new Locale("en"));
-            } else if (language.equals(bundle.getString("langPL"))) {
-                Locale.setDefault(new Locale("pl"));
-            }
-
-            Parent root1;
-            root1 = FXMLLoader.load(getClass().getClassLoader()
-                    .getResource("startMenu.fxml"), bundle);
-            Stage stage = new Stage();
-            stage.setTitle(bundle.getString("title"));
-            stage.setScene(new Scene(root1, 480, 350));
-            stage.show();
+            bundle = ResourceBundle.getBundle("Language", this.changeLocal());
+            Parent pane = FXMLLoader.load(getClass()
+                    .getResource("/startMenu.fxml"), bundle);
+            anchorChoice.getChildren().setAll(pane);
 
         } catch (Exception e) {
             e.printStackTrace();
