@@ -1,0 +1,22 @@
+.text-field {
+    -fx-background-color: lightpink;
+    -fx-min-width: 60;
+    -fx-cursor: hand;
+    -fx-border-style: solid;
+    -fx-border-color: grey;
+    -fx-border-width: 3px;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+    -fx-opacity: 1;
+    -fx-font-size: 24;
+    -fx-alignment: center;
+    -fx-min-height: 60;
+}
+
+.text-field:hover {
+    -fx-background-color: rgb(255, 150, 193);
+    -fx-border-width: 5px;
+    -fx-border-color: grey;
+    -fx-min-height: 65;
+    -fx-min-width: 65;
+}
