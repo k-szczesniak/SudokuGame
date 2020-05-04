@@ -44,7 +44,7 @@ public class GameWindow {
     }
 
     private SudokuBoard specifyLevel() throws CloneNotSupportedException {
-        SudokuBoard cloneBoard = (SudokuBoard) board.clone();
+        SudokuBoard cloneBoard = board.clone();
         switch (choice) {
             case Easy:
                 return calculateHiddenPostions(cloneBoard, 27);

@@ -3,7 +3,7 @@ package sudokupackage;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class SudokuField implements Serializable, Cloneable, Comparable {
+public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
 
     public SudokuField(int value) {
@@ -21,12 +21,11 @@ public class SudokuField implements Serializable, Cloneable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        SudokuField that = (SudokuField) o;
-        if (this.equals(that)) {
+    public int compareTo(SudokuField o) {
+        if (this.equals(o)) {
             return 0;
         }
-        return this.getValue() - that.getValue();
+        return this.getValue() - o.getValue();
     }
 
     @Override
