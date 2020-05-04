@@ -2,12 +2,16 @@ package sudokupackage;
 
 public enum Levels {
     Easy(27),
-    Medium(45),
-    Hard(63);
+    Medium(36),
+    Hard(45);
 
-    private int liczba;
+    final private int numberOfcells;
 
-    Levels(int liczba) {
-        this.liczba = liczba;
+    Levels(int numberOfcells) {
+        this.numberOfcells = numberOfcells;
+    }
+
+    public int getNumberOfcells() {
+        return numberOfcells;
     }
 }

@@ -57,6 +57,9 @@ class SudokuFieldTest {
         assertTrue(sudokuField1.compareTo(sudokuField2) > 0);
         assertTrue(sudokuField1.compareTo(sudokuField3) < 0);
         assertTrue(sudokuField1.compareTo(sudokuField4) == 0);
+        assertThrows(NullPointerException.class, () ->{
+            sudokuField1.compareTo(null);
+        });
     }
 
     @Test

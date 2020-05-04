@@ -47,7 +47,7 @@ public class StartMenu {
             root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
             Stage stage = new Stage();
             stage.setTitle("SudokuGame");
-            stage.setScene(new Scene(root1, 500, 500));
+            stage.setScene(new Scene(root1, 1000, 1000));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

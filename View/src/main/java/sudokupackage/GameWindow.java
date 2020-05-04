@@ -1,33 +1,36 @@
 package sudokupackage;
 
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 
 public class GameWindow {
 
-    @FXML
-    Canvas canvas;
+    Levels choice;
 
     private SudokuBoard board;
-    private Set<Integer> setOfPositions = new HashSet<Integer>();
-    Levels choice = StartMenu.getChoice();
-
+    @FXML
+    private GridPane sudokuGrid;
     Random rand = new Random();
 
     public void initialize() throws CloneNotSupportedException {
         board = new SudokuBoard(new BacktrackingSudokuSolver());
-        GraphicsContext context = canvas.getGraphicsContext2D();
-        drawOnCanvas(context);
+        choice = StartMenu.getChoice();
+        startSudoku();
     }
 
     private SudokuBoard calculateHiddenPostions(SudokuBoard board, int counter) {
+        Set<Integer> setOfPositions = new HashSet<Integer>();
         while (counter > 0) {
             if (setOfPositions.add(rand.nextInt(81))) {
                 counter--;
@@ -43,56 +46,30 @@ public class GameWindow {
         return board;
     }
 
-    private SudokuBoard specifyLevel() throws CloneNotSupportedException {
-        SudokuBoard cloneBoard = board.clone();
-        switch (choice) {
-            case Easy:
-                return calculateHiddenPostions(cloneBoard, 27);
-            case Medium:
-                return calculateHiddenPostions(cloneBoard, 45);
-            case Hard:
-                return calculateHiddenPostions(cloneBoard, 63);
-            default:
-                return cloneBoard;
-        }
+    private void startSudoku() throws CloneNotSupportedException {
+        board.solveGame();
+        SudokuBoard boardToDisplay = board.clone();
+        boardToDisplay = calculateHiddenPostions(boardToDisplay, choice.getNumberOfcells());
+        fillSudokuGrid(boardToDisplay);
     }
 
-    public void drawOnCanvas(GraphicsContext context) throws CloneNotSupportedException {
-        context.clearRect(0, 0, 450, 450);
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-
-                int positionY = row * 50 + 2;
-
-                int positionX = col * 50 + 2;
-
-                int width = 46;
-
-                context.setFill(Color.PINK);
-
-                context.fillRoundRect(positionX, positionY, width, width, 10, 10);
-
-            }
-        }
-
-        board.solveGame();
-        SudokuBoard boardToDisplay = specifyLevel();
-
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-
-                int positionY = row * 50 + 30;
-                int positionX = col * 50 + 20;
-
-                context.setFill(Color.BLACK);
-
-                context.setFont(new Font(20));
-
-                if (boardToDisplay.get(row, col) != 0) {
-                    context.fillText(boardToDisplay.get(row, col) + "", positionX, positionY);
+    private void fillSudokuGrid(SudokuBoard boardToDisplay) {
+        sudokuGrid.setPrefSize(600, 600);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                TextField field = new TextField();
+                field.setMinSize(60, 60);
+                field.setFont(Font.font(24));
+                field.setAlignment(Pos.CENTER);
+                field.setOpacity(1);
+                field.setStyle("-fx-background-color: lightpink; -fx-cursor: hand; -fx-border-style: solid; " +
+                        "-fx-border-color: grey; -fx-border-width: 3px; -fx-border-radius: 4px");
+                if (boardToDisplay.get(i, j) != 0) {
+                    field.setDisable(true);
+                    field.setText(String.valueOf(boardToDisplay.get(i, j)));
                 }
+                sudokuGrid.add(field, i, j);
             }
-
         }
     }
 }
