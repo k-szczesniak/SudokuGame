@@ -49,15 +49,6 @@ public class StartMenu {
         );
     }
 
-//    private void restartInLocale(Locale locale)
-//    {
-//        Locale.setDefault(locale);
-//        Configuration config = new Configuration();
-//        config.locale = locale;
-//        Resources resources = getResources();
-//        resources.updateConfiguration(config, resources.getDisplayMetrics());
-//        recreate();
-//    }
     private Locale changeLocal() {
         Locale locale = null;
 
@@ -92,8 +83,7 @@ public class StartMenu {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             choice = choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Please, choose level!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, bundle.getString("warnNotLevel") , ButtonType.OK);
             alert.show();
         }
 
@@ -101,7 +91,7 @@ public class StartMenu {
             Parent root1;
             root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("SudokuGame");
+            stage.setTitle(bundle.getString("titleSudokuGameWindow"));
             Scene scene = new Scene(root1, 1000, 1000);
             scene.getStylesheets().add("style.css");
             stage.setScene(scene);
