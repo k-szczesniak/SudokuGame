@@ -1,17 +1,13 @@
 package sudokupackage;
 
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+
 
 
 public class GameWindow {

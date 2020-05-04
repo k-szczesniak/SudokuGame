@@ -1,5 +1,6 @@
 package sudokupackage;
 
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +11,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/startMenu.fxml"));
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Language");
+        Parent root = FXMLLoader.load(getClass().getResource("/startMenu.fxml"),resourceBundle);
 
         primaryStage.setTitle("Choice Window");
         primaryStage.setScene(new Scene(root, 480, 350));
