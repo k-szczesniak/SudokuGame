@@ -143,13 +143,13 @@ public class GameWindow {
 
             for(int i=0; i<9; i ++) {
                 for(int j=0; j < 9; j++) {
-                    integerProperty[i][j].setValue(0);
+                    field[i][j].setDisable(false);
+                    field[i][j].setText("");
                     integerProperty[i][j].setValue(boardFromFileOriginal.get(i,j));
-                    if(integerProperty[i][j].getValue() != 0) {
+                    if(integerProperty[i][j].getValue()!=0){
                         field[i][j].setDisable(true);
                     }
-//                    integerProperty[i][j].setValue(boardFromFileEditable.get(i,j));
-//                    boardToDisplay.set(i,j,boardFromFile.get(i,j));
+                    integerProperty[i][j].setValue(boardFromFileEditable.get(i, j));
                 }
             }
 
@@ -158,23 +158,12 @@ public class GameWindow {
         }
     }
 
-//    private boolean verifyCorrectOfBoard(SudokuBoard board) {
-//        for(int i = 0; i < 9; i++) {
-//            for(int j =0; j<9;j++) {
-//                if(board.get(i,j,))
-//            }
-//        }
-//    }
-
     @FXML
     private void handleButtonSaveAction(ActionEvent actionEvent) throws IOException {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save file");
             String fileName = fileChooser.showSaveDialog(null).toString();
-
-
-//            if(boardToDisplay.get())
 
             if(fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
