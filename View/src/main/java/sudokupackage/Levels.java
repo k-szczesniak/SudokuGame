@@ -3,10 +3,10 @@ package sudokupackage;
 public enum Levels {
     Easy(27),
     Medium(36),
-    Hard(45),
+    Hard(75),
     Łatwy(27),
     Normalny(36),
-    Trudny(45);
+    Trudny(75);
 
     private final int numberOfcells;
 

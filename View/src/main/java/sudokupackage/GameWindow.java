@@ -1,15 +1,23 @@
 package sudokupackage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 
@@ -20,8 +28,9 @@ public class GameWindow {
     private JavaBeanIntegerProperty[][] integerProperty = new JavaBeanIntegerProperty[9][9];
     private TextField[][] field = new TextField[9][9];
     private SudokuBoard board;
-    Random rand = new Random();
     private SudokuBoard boardToDisplay;
+    private SudokuBoard originalGameBoard;
+    Random rand = new Random();
 
     public void initialize() throws CloneNotSupportedException {
         board = new SudokuBoard(new BacktrackingSudokuSolver());
@@ -50,6 +59,7 @@ public class GameWindow {
         board.solveGame();
         boardToDisplay = board.clone();
         boardToDisplay = calculateHiddenPostions(boardToDisplay, choice.getNumberOfcells());
+        originalGameBoard = boardToDisplay.clone();
         fillSudokuGrid(boardToDisplay);
     }
 
@@ -114,4 +124,68 @@ public class GameWindow {
             }
         }
     }
+
+    @FXML
+    private void handleButtonOpenAction(ActionEvent actionEvent) throws IOException {
+        try {
+            SudokuBoard boardFromFileOriginal = null;
+            SudokuBoard boardFromFileEditable = null;
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open file");
+            String fileName = fileChooser.showOpenDialog(null).toString();
+
+            if(fileName != null) {
+                Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
+                Dao<SudokuBoard> fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                boardFromFileOriginal = fileSudokuBoardDaoOriginal.read();
+                boardFromFileEditable = fileSudokuBoardDao.read();
+            }
+
+            for(int i=0; i<9; i ++) {
+                for(int j=0; j < 9; j++) {
+                    integerProperty[i][j].setValue(0);
+                    integerProperty[i][j].setValue(boardFromFileOriginal.get(i,j));
+                    if(integerProperty[i][j].getValue() != 0) {
+                        field[i][j].setDisable(true);
+                    }
+//                    integerProperty[i][j].setValue(boardFromFileEditable.get(i,j));
+//                    boardToDisplay.set(i,j,boardFromFile.get(i,j));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    private boolean verifyCorrectOfBoard(SudokuBoard board) {
+//        for(int i = 0; i < 9; i++) {
+//            for(int j =0; j<9;j++) {
+//                if(board.get(i,j,))
+//            }
+//        }
+//    }
+
+    @FXML
+    private void handleButtonSaveAction(ActionEvent actionEvent) throws IOException {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save file");
+            String fileName = fileChooser.showSaveDialog(null).toString();
+
+
+//            if(boardToDisplay.get())
+
+            if(fileName != null) {
+                Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
+                Dao<SudokuBoard> fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                fileSudokuBoardDao.write(boardToDisplay);
+                fileSudokuBoardDaoOriginal.write(originalGameBoard);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

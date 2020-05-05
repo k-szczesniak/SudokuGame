@@ -90,7 +90,7 @@ public class StartMenu {
 
         try {
             Parent root1;
-            root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"));
+            root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"),bundle);
             Stage stage = new Stage();
             stage.setTitle(bundle.getString("titleSudokuGameWindow"));
             Scene scene = new Scene(root1, 1000, 1000);
