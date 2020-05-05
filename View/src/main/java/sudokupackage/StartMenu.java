@@ -83,7 +83,8 @@ public class StartMenu {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             choice = choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, bundle.getString("warnNotLevel") , ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
         }
 

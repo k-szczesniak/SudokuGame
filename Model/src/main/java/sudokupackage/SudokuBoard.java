@@ -1,11 +1,11 @@
 package sudokupackage;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 public class SudokuBoard implements Serializable, Cloneable {
 
@@ -149,5 +149,9 @@ public class SudokuBoard implements Serializable, Cloneable {
             }
         }
         boxes = new ArrayList<>(Arrays.asList(sudokuBoxes));
+    }
+
+    public SudokuField getSudokuField(int i, int j) {
+        return board.get(i).get(j);
     }
 }
