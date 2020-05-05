@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ChangeListener;
@@ -130,13 +133,22 @@ public class GameWindow {
         try {
             SudokuBoard boardFromFileOriginal = null;
             SudokuBoard boardFromFileEditable = null;
+            Dao<SudokuBoard> fileSudokuBoardDaoOriginal = null;
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open file");
             String fileName = fileChooser.showOpenDialog(null).toString();
 
             if(fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
-                Dao<SudokuBoard> fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                Pattern pattern = Pattern.compile("");
+                Matcher matcher = pattern.matcher(fileName);
+                if(matcher.find()){
+                    fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName);
+                }
+                else {
+                    fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                }
+
                 boardFromFileOriginal = fileSudokuBoardDaoOriginal.read();
                 boardFromFileEditable = fileSudokuBoardDao.read();
             }
