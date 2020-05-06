@@ -83,17 +83,18 @@ public class StartMenu {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             choice = choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+            Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
         }
 
         try {
             Parent root1;
-            root1 = FXMLLoader.load(getClass().getClassLoader().getResource("gameWindow.fxml"),bundle);
+            root1 = FXMLLoader.load(getClass().getClassLoader()
+                    .getResource("gameWindow.fxml"), bundle);
             Stage stage = new Stage();
             stage.setTitle(bundle.getString("titleSudokuGameWindow"));
-            Scene scene = new Scene(root1, 1000, 1000);
+            Scene scene = new Scene(root1, 700, 700);
             scene.getStylesheets().add("style.css");
             stage.setScene(scene);
             stage.show();

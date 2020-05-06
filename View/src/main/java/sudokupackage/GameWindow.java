@@ -1,26 +1,22 @@
 package sudokupackage;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 
@@ -33,6 +29,7 @@ public class GameWindow {
     private SudokuBoard board;
     private SudokuBoard boardToDisplay;
     private SudokuBoard originalGameBoard;
+    Authors authors = new Authors();
     Random rand = new Random();
 
     public void initialize() throws CloneNotSupportedException {
@@ -67,7 +64,6 @@ public class GameWindow {
     }
 
     private void fillSudokuGrid(SudokuBoard boardToDisplay) throws NumberFormatException {
-        sudokuGrid.setPrefSize(600, 600);
         StringConverter<Number> converter = new StringConverter<Number>() {
 
             @Override
@@ -138,27 +134,27 @@ public class GameWindow {
             fileChooser.setTitle("Open file");
             String fileName = fileChooser.showOpenDialog(null).toString();
 
-            if(fileName != null) {
+            if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
                 Pattern pattern = Pattern.compile("");
                 Matcher matcher = pattern.matcher(fileName);
-                if(matcher.find()){
+                if (matcher.find()) {
                     fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName);
-                }
-                else {
-                    fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                } else {
+                    fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory
+                            .getFileDao(fileName + "_original");
                 }
 
                 boardFromFileOriginal = fileSudokuBoardDaoOriginal.read();
                 boardFromFileEditable = fileSudokuBoardDao.read();
             }
 
-            for(int i=0; i<9; i ++) {
-                for(int j=0; j < 9; j++) {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
                     field[i][j].setDisable(false);
                     field[i][j].setText("");
-                    integerProperty[i][j].setValue(boardFromFileOriginal.get(i,j));
-                    if(integerProperty[i][j].getValue()!=0){
+                    integerProperty[i][j].setValue(boardFromFileOriginal.get(i, j));
+                    if (integerProperty[i][j].getValue() != 0) {
                         field[i][j].setDisable(true);
                     }
                     integerProperty[i][j].setValue(boardFromFileEditable.get(i, j));
@@ -177,9 +173,10 @@ public class GameWindow {
             fileChooser.setTitle("Save file");
             String fileName = fileChooser.showSaveDialog(null).toString();
 
-            if(fileName != null) {
+            if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
-                Dao<SudokuBoard> fileSudokuBoardDaoOriginal = SudokuBoardDaoFactory.getFileDao(fileName+"_original");
+                Dao<SudokuBoard> fileSudokuBoardDaoOriginal =
+                        SudokuBoardDaoFactory.getFileDao(fileName + "_original");
                 fileSudokuBoardDao.write(boardToDisplay);
                 fileSudokuBoardDaoOriginal.write(originalGameBoard);
             }
@@ -189,4 +186,16 @@ public class GameWindow {
         }
     }
 
+
+    @FXML
+    private void handleButtonShowAuthorsAction(ActionEvent actionEvent) throws IOException {
+        try {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    authors.getObject("1").toString() + " i "
+                            + authors.getObject("2"), ButtonType.OK);
+            alert.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
