@@ -3,6 +3,7 @@ package sudokupackage;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +30,6 @@ public class GameWindow {
     private SudokuBoard board;
     private SudokuBoard boardToDisplay;
     private SudokuBoard originalGameBoard;
-    Authors authors = new Authors();
     Random rand = new Random();
 
     public void initialize() throws CloneNotSupportedException {
@@ -189,10 +189,12 @@ public class GameWindow {
 
     @FXML
     private void handleButtonShowAuthorsAction(ActionEvent actionEvent) throws IOException {
+        ResourceBundle authors = ResourceBundle.getBundle("sudokupackage.Authors");
         try {
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    authors.getObject("1").toString() + " i "
+                    authors.getObject("1").toString() + ", "
                             + authors.getObject("2"), ButtonType.OK);
+            alert.setHeaderText(null);
             alert.show();
         } catch (Exception e) {
             e.printStackTrace();
