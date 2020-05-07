@@ -1,11 +1,10 @@
 package sudokupackage;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
+public class BacktrackingSudokuSolver implements SudokuSolver {
 
     @Override
     public void solve(final SudokuBoard sudoku) {

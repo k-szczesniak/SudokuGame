@@ -1,5 +1,7 @@
 package sudokupackage;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ChangeListener;
@@ -13,8 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
 
 
 public class GameWindow {
@@ -118,7 +118,7 @@ public class GameWindow {
                     field[i][j].setDisable(false);
                     field[i][j].setText("");
                     integerProperty[i][j].setValue(board.get(i, j));
-                    if(!board.getIsEditable(i, j)){
+                    if (!board.getIsEditable(i, j)) {
                         field[i][j].setDisable(true);
                     }
                 }
@@ -161,12 +161,15 @@ public class GameWindow {
 
     @FXML
     private void handleButtonCheckAction(ActionEvent actionEvent) throws IOException {
+        ResourceBundle bundle = ResourceBundle.getBundle("Language");
         if (board.checkBoard()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Brawo wygrałeś!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    bundle.getString("CheckResultInformationWin"), ButtonType.OK);
             alert.setTitle(null);
             alert.show();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Niestety, próbuj dalej!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    bundle.getString("CheckResultInformationLose"), ButtonType.OK);
             alert.setTitle(null);
             alert.show();
         }

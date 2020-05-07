@@ -9,18 +9,18 @@ public class SudokuBoardView extends SudokuBoard {
 
     public SudokuBoardView(SudokuSolver sudokusolver) {
         super(sudokusolver);
-        for(int i=0; i<9; i++){
-            for(int j=0; j<9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 isEditable[i][j] = true;
             }
         }
     }
 
-    public boolean getIsEditable(int i, int j){
+    public boolean getIsEditable(int i, int j) {
         return isEditable[i][j];
     }
 
-    public void setIsEditable(int i, int j, boolean editable){
+    public void setIsEditable(int i, int j, boolean editable) {
         isEditable[i][j] = editable;
     }
 
