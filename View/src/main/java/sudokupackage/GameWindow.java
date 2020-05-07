@@ -1,10 +1,5 @@
 package sudokupackage;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ChangeListener;
@@ -12,12 +7,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
+
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 
 public class GameWindow {
@@ -31,12 +28,12 @@ public class GameWindow {
     private SudokuBoardView board;
 
     public void initialize() {
-        board = new SudokuBoardView(new BacktrackingSudokuSolver());
         choice = StartMenu.getChoice();
         startSudoku();
     }
 
     private void startSudoku() {
+        board = new SudokuBoardView(new BacktrackingSudokuSolver());
         board.solveGame();
         board.calculateHiddenPostions(choice.getNumberOfcells());
         fillSudokuGrid();
@@ -161,4 +158,25 @@ public class GameWindow {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleButtonCheckAction(ActionEvent actionEvent) throws IOException {
+        if (board.checkBoard()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Brawo wygrałeś!", ButtonType.OK);
+            alert.setTitle(null);
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Niestety, próbuj dalej!", ButtonType.OK);
+            alert.setTitle(null);
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void handleButtonRandAction(ActionEvent actionEvent) throws IOException {
+        sudokuGrid.getChildren().clear();
+        startSudoku();
+    }
+
+
 }

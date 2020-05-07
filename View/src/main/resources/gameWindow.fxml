@@ -30,7 +30,7 @@
             </rowConstraints>
         </GridPane>
         <!--        <VBox layoutX="229.0" layoutY="632.0" prefHeight="200.0" prefWidth="100.0">-->
-        <VBox AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <VBox fx:id="VBox" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <MenuBar prefHeight="19.0" prefWidth="1005.0">
             <Menu style="-fx-font-size: 18px;" text="%VBoxOptions">
                 <MenuItem onAction="#handleButtonOpenAction" text="%VBoxOptionsOpen" />
@@ -38,6 +38,10 @@
             </Menu>
             <Menu style="-fx-font-size: 18px;" text="%VboxMore">
                 <MenuItem onAction="#handleButtonShowAuthorsAction" text="%VBoxMoreAuthors" />
+            </Menu>
+            <Menu style="-fx-font-size: 18px;" text="%VboxGame">
+                <MenuItem onAction="#handleButtonCheckAction" text="%VboxCheck"/>
+                <MenuItem onAction="#handleButtonRandAction" text="%VboxRand"/>
             </Menu>
         </MenuBar>
         </VBox>

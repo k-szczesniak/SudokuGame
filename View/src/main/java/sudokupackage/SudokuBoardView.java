@@ -41,4 +41,36 @@ public class SudokuBoardView extends SudokuBoard {
         }
     }
 
+    public boolean checkBoard() {
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (this.get(i, j) == 0) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            if (!this.getRow(i).verify()) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            if (!this.getColumn(i).verify()) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 9; i += 3) {
+            for (int j = 0; j < 9; j += 3) {
+                if (!this.getBox(i, j).verify()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

@@ -20,3 +20,7 @@
     -fx-min-height: 65;
     -fx-min-width: 65;
 }
+
+#VBox{
+    -fx-cursor: hand;
+}
