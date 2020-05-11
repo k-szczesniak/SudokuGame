@@ -55,7 +55,6 @@ class SudokuPartsTest {
             listFields.add(new SudokuField(i));
         }
         SudokuRow row1 = new SudokuRow(listFields);
-//        String result = "0 1 2 3 4 5 6 7 8 ";
         List<Integer> result = Arrays.asList(0,1,2,3,4,5,6,7,8);
         assertEquals(row1.toString(), result.toString());
     }

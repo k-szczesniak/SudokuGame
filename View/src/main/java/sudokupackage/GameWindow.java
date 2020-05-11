@@ -14,7 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class GameWindow {
@@ -26,6 +27,7 @@ public class GameWindow {
     private JavaBeanIntegerProperty[][] integerProperty = new JavaBeanIntegerProperty[9][9];
     private TextField[][] field = new TextField[9][9];
     private SudokuBoardView board;
+    private static final Logger logger = LoggerFactory.getLogger(GameWindow.class);
 
     public void initialize() {
         choice = StartMenu.getChoice();
@@ -68,7 +70,7 @@ public class GameWindow {
                 field[i][j] = new TextField();
                 try {
                     integerProperty[i][j] = builder.bean(board
-                            .getSudokuField(i, j)).name("value")
+                            .getSudokuField(i, j)).name("valuexddd")
                             .getter("getValue")
                             .setter("setValue")
                             .build();
@@ -76,7 +78,7 @@ public class GameWindow {
                             .bindBidirectional(integerProperty[i][j], converter);
 
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
+                    logger.error("Problems with integerProperty build.");
                 }
                 if (board.get(i, j) != 0) {
                     field[i][j].setDisable(true);
@@ -123,8 +125,10 @@ public class GameWindow {
                     }
                 }
             }
+        } catch (IOException e) {
+            logger.error("Incorrect file chosed.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn("File not selected.");
         }
     }
 
@@ -141,26 +145,22 @@ public class GameWindow {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn("File not selected");
         }
     }
 
     @FXML
-    private void handleButtonShowAuthorsAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonShowAuthorsAction(ActionEvent actionEvent) {
         ResourceBundle authors = ResourceBundle.getBundle("sudokupackage.Authors");
-        try {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    authors.getObject("1").toString() + ", "
-                            + authors.getObject("2"), ButtonType.OK);
-            alert.setHeaderText(null);
-            alert.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                authors.getObject("1").toString() + ", "
+                        + authors.getObject("2"), ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.show();
     }
 
     @FXML
-    private void handleButtonCheckAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonCheckAction(ActionEvent actionEvent) {
         ResourceBundle bundle = ResourceBundle.getBundle("Language");
         if (board.checkBoard()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
@@ -176,7 +176,7 @@ public class GameWindow {
     }
 
     @FXML
-    private void handleButtonRandAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonRandAction(ActionEvent actionEvent) {
         sudokuGrid.getChildren().clear();
         startSudoku();
     }

@@ -7,10 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public abstract class SudokuParts implements Serializable, Cloneable {
     private final List<SudokuField> values;
+    private static final Logger logger = LoggerFactory.getLogger(SudokuParts.class);
 
     public SudokuParts(final List<SudokuField> values) {
         this.values = values;
@@ -43,6 +46,7 @@ public abstract class SudokuParts implements Serializable, Cloneable {
         }
 
         if (o == null || getClass() != o.getClass()) {
+            logger.warn("Null or other class object.");
             return false;
         }
 

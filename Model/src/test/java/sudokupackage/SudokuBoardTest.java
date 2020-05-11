@@ -1,6 +1,8 @@
 package sudokupackage;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +10,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
+
+    static final Logger logger = LoggerFactory.getLogger(SudokuBoardTest.class);
 
     @Test
     public void testGetterSetter() {
@@ -31,7 +35,7 @@ class SudokuBoardTest {
                 for (int r = row; r < row + 3; r++) {
                     for (int c = col; c < col + 3; c++) {
                         if (!set.add(board.get(r, c))) {
-                            fail("Box error");
+                            logger.error("Error in checking squares");
                         }
                     }
                 }
@@ -47,7 +51,7 @@ class SudokuBoardTest {
             Set<Integer> set = new HashSet<Integer>();
             for (int col = 0; col < 9; col++) {
                 if (!set.add(board.get(row, col))) {
-                    fail("Row error");
+                    logger.error("Error in checking row");
                 }
             }
         }
@@ -61,7 +65,7 @@ class SudokuBoardTest {
             Set<Integer> set = new HashSet<Integer>();
             for (int row = 0; row < 9; row++) {
                 if (!set.add(board.get(row, col))) {
-                    fail("Column error");
+                    logger.error("Error in checking column");
                 }
             }
         }
@@ -107,9 +111,9 @@ class SudokuBoardTest {
 
     @Test
     public void testClone() throws CloneNotSupportedException {
-        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoard sudokuBoard2 = sudokuBoard1.clone();
-        assertTrue(sudokuBoard1.equals(sudokuBoard2));
-        assertNotSame(sudokuBoard1,sudokuBoard2);
+            SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver());
+            SudokuBoard sudokuBoard2 = sudokuBoard1.clone();
+            assertTrue(sudokuBoard1.equals(sudokuBoard2));
+            assertNotSame(sudokuBoard1,sudokuBoard2);
     }
 }

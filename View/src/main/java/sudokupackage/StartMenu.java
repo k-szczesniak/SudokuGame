@@ -1,7 +1,6 @@
 package sudokupackage;
 
 import java.io.IOException;
-import java.lang.module.Configuration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,9 +14,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StartMenu {
+
+    private static final Logger logger = LoggerFactory.getLogger(StartMenu.class);
 
     private static Levels choice;
     public AnchorPane anchorChoice;
@@ -73,7 +76,7 @@ public class StartMenu {
             anchorChoice.getChildren().setAll(pane);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Problems with language interface change.");
         }
     }
 
@@ -83,6 +86,7 @@ public class StartMenu {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             choice = choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
+            logger.warn("Level of difficulty not selected.");
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
@@ -99,7 +103,7 @@ public class StartMenu {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("gameWindow.fxml not found");
         }
     }
 }

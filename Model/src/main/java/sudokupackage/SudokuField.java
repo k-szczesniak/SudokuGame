@@ -2,8 +2,13 @@ package sudokupackage;
 
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
+
+    private static final Logger logger = LoggerFactory.getLogger(SudokuField.class);
+
     private int value;
 
     public SudokuField(int value) {
@@ -23,6 +28,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     @Override
     public int compareTo(SudokuField o) {
         if (o == null) {
+            logger.error("Compared object is null.");
             throw new NullPointerException();
         }
         if (this.equals(o)) {
@@ -52,6 +58,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
         }
 
         if (o == null || getClass() != o.getClass()) {
+            logger.info("Null or other class object.");
             return false;
         }
 

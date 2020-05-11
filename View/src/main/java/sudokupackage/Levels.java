@@ -1,10 +1,10 @@
 package sudokupackage;
 
 public enum Levels {
-    Easy(1),
+    Easy(18),
     Medium(36),
     Hard(45),
-    Łatwy(1),
+    Łatwy(18),
     Normalny(36),
     Trudny(45);
 

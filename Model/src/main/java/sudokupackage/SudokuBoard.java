@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class SudokuBoard implements Serializable, Cloneable {
 
+    private static final Logger logger = LoggerFactory.getLogger(SudokuBoard.class);
     private final List<List<SudokuField>> board;
     private SudokuSolver sudokuSolver;
     private List<SudokuRow> rows;
@@ -93,6 +96,7 @@ public class SudokuBoard implements Serializable, Cloneable {
         }
 
         if (o == null || getClass() != o.getClass()) {
+            logger.info("Null or other class object.");
             return false;
         }
 

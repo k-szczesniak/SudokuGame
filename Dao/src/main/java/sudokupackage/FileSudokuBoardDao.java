@@ -1,19 +1,16 @@
-git package sudokupackage;
+package sudokupackage;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
-//    private static Logger logger = LogManager.getLogger(String.valueOf(FileSudokuBoardDao.class));
-    private final static Logger logger = Logger.getLogger(FileSudokuBoardDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileSudokuBoardDao.class);
 
     private static final long serialVersionUID = 42L;
 
@@ -21,8 +18,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     public FileSudokuBoardDao(String fileName) {
         this.fileName = fileName;
-        PropertyConfigurator.configure("/home/student/IntelliJProject/" +
-                "sudoku_git/pk-2020-mkwa-sr-10-05/View/src/main/resources/log4j.properties");
     }
 
     @Override
@@ -31,9 +26,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             ObjectInputStream ois = new ObjectInputStream(fOut);
             return (SudokuBoard) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            logger.debug("Debug log message");
-            logger.info("Info log message");
-            logger.error("Error log message");
+            logger.error("Exception during execute read() method.");
             throw new IOException();
         }
     }
@@ -44,6 +37,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             ObjectOutputStream oos = new ObjectOutputStream(fOut);
             oos.writeObject(obj);
         } catch (IOException e) {
+            logger.error("Exception during execute write() method.");
             throw new IOException();
         }
     }
