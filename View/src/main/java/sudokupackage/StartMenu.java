@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.LanguageException;
+import sudokupackage.exceptions.LevelException;
 
 
 public class StartMenu {
@@ -68,7 +70,7 @@ public class StartMenu {
     }
 
     @FXML
-    private void handleButtonSetLangAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonSetLangAction(ActionEvent actionEvent) throws LanguageException {
         try {
             bundle = ResourceBundle.getBundle("Language", this.changeLocal());
             Parent pane = FXMLLoader.load(getClass()
@@ -77,11 +79,12 @@ public class StartMenu {
 
         } catch (Exception e) {
             logger.error("Problems with language interface change.");
+            throw new LanguageException("Problems with language interface change.", e);
         }
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException {
+    private void handleButtonAction(ActionEvent event) throws LevelException {
         try {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             choice = choice.valueOf(chosenLevel);
@@ -90,6 +93,7 @@ public class StartMenu {
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
+            throw new LevelException("Level not selected", e);
         }
 
         try {

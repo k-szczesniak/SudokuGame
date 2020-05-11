@@ -14,7 +14,7 @@ public class MainApp extends Application {
     private static final Logger logger = LoggerFactory.getLogger(MainApp.class);
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Language");
         try {
             Parent root = FXMLLoader.load(getClass()
@@ -23,6 +23,7 @@ public class MainApp extends Application {
             primaryStage.setScene(new Scene(root, 480, 350));
             primaryStage.show();
         } catch (Exception e) {
+
             logger.error("startMenu.fxml not found.");
         }
     }

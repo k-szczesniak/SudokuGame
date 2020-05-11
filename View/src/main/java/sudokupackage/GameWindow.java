@@ -1,6 +1,5 @@
 package sudokupackage;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
@@ -16,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.FileDaoException;
 
 
 public class GameWindow {
@@ -34,14 +34,14 @@ public class GameWindow {
         startSudoku();
     }
 
-    private void startSudoku() {
+    private void startSudoku()  {
         board = new SudokuBoardView(new BacktrackingSudokuSolver());
         board.solveGame();
         board.calculateHiddenPostions(choice.getNumberOfcells());
         fillSudokuGrid();
     }
 
-    private void fillSudokuGrid() throws NumberFormatException {
+    private void fillSudokuGrid() {
         StringConverter<Number> converter = new StringConverter<Number>() {
 
             @Override
@@ -104,7 +104,7 @@ public class GameWindow {
     }
 
     @FXML
-    private void handleButtonOpenAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonOpenAction(ActionEvent actionEvent) {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open file");
@@ -125,15 +125,13 @@ public class GameWindow {
                     }
                 }
             }
-        } catch (IOException e) {
-            logger.error("Incorrect file chosed.");
-        } catch (Exception e) {
-            logger.warn("File not selected.");
+        } catch (FileDaoException e) {
+            logger.warn("Wrong or not selected file");
         }
     }
 
     @FXML
-    private void handleButtonSaveAction(ActionEvent actionEvent) throws IOException {
+    private void handleButtonSaveAction(ActionEvent actionEvent) {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save file");
@@ -144,7 +142,7 @@ public class GameWindow {
                 fileSudokuBoardDao.write(board);
             }
 
-        } catch (Exception e) {
+        } catch (FileDaoException e) {
             logger.warn("File not selected");
         }
     }

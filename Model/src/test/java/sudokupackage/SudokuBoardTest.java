@@ -3,6 +3,7 @@ package sudokupackage;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.BadFieldValueException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,10 @@ class SudokuBoardTest {
         assertEquals(board.get(0, 0), 9);
         board.set(0, 1, 9);
         assertEquals(board.get(0, 1), 0);
-        board.set(0, 1, 10);
-        assertEquals(board.get(0, 1), 0);
+        assertThrows(BadFieldValueException.class, () -> {
+            board.set(0, 1, 10);
+            assertEquals(board.get(0, 1), 0);
+        });
     }
 
     @Test

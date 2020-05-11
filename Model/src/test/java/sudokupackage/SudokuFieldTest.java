@@ -1,6 +1,7 @@
 package sudokupackage;
 
 import org.junit.jupiter.api.Test;
+import sudokupackage.exceptions.BadFieldValueException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,10 +42,14 @@ class SudokuFieldTest {
         SudokuField sudokuField1 = new SudokuField(1);
         sudokuField1.setValue(2);
         assertEquals(sudokuField1.getValue(), 2);
-        sudokuField1.setValue(-1);
-        assertEquals(sudokuField1.getValue(), 2);
-        sudokuField1.setValue(11);
-        assertEquals(sudokuField1.getValue(), 2);
+        assertThrows(BadFieldValueException.class, () -> {
+            sudokuField1.setValue(-1);
+            assertEquals(sudokuField1.getValue(), 2);
+        });
+        assertThrows(BadFieldValueException.class, () -> {
+            sudokuField1.setValue(11);
+            assertEquals(sudokuField1.getValue(), 2);
+        });
     }
 
     @Test
