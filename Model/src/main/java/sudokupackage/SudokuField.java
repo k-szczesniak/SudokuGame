@@ -1,6 +1,7 @@
 package sudokupackage;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,8 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
         if (value >= 0 && value < 10) {
             this.value = value;
         } else {
-            throw new BadFieldValueException("Value of field beyond the specific range");
+            throw new BadFieldValueException(ResourceBundle.getBundle("Language")
+                    .getString("badFieldExceptionMsg"));
         }
     }
 

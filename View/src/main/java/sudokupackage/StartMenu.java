@@ -79,7 +79,7 @@ public class StartMenu {
 
         } catch (Exception e) {
             logger.error("Problems with language interface change.");
-            throw new LanguageException("Problems with language interface change.", e);
+            throw new LanguageException(bundle.getString("languageExceptionMsg"), e);
         }
     }
 
@@ -93,7 +93,7 @@ public class StartMenu {
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
-            throw new LevelException("Level not selected", e);
+            throw new LevelException(bundle.getString("levelExceptionMsg"), e);
         }
 
         try {

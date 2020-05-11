@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudokupackage.exceptions.DaoException;
@@ -29,7 +30,8 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             return (SudokuBoard) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Exception during execute read() method.");
-            throw new FileDaoException("Exception during execute read() method.", e);
+            throw new FileDaoException(ResourceBundle.getBundle("Language")
+                    .getString("fileDaoExceptionMsgRead"), e);
         }
     }
 
@@ -40,7 +42,8 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             oos.writeObject(obj);
         } catch (IOException e) {
             logger.error("Exception during execute write() method.");
-            throw new FileDaoException("Exception during execute write() method.", e);
+            throw new FileDaoException(ResourceBundle.getBundle("Language")
+                    .getString("fileDaoExceptionMsgWrite"), e);
         }
     }
 
