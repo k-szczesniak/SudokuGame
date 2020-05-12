@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,8 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             return (SudokuBoard) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Exception during execute read() method.");
-            throw new FileDaoException(ResourceBundle.getBundle("Language")
-                    .getString("fileDaoExceptionMsgRead"), e);
+            throw new FileDaoException(ResourceBundle.getBundle("Language", Locale.getDefault())
+                    .getString("fileDaoExceptionMsgRead"), e); //change to get polish message
         }
     }
 
@@ -42,7 +43,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             oos.writeObject(obj);
         } catch (IOException e) {
             logger.error("Exception during execute write() method.");
-            throw new FileDaoException(ResourceBundle.getBundle("Language")
+            throw new FileDaoException(ResourceBundle.getBundle("Language", Locale.getDefault())
                     .getString("fileDaoExceptionMsgWrite"), e);
         }
     }

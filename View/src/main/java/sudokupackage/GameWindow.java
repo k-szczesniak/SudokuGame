@@ -1,5 +1,6 @@
 package sudokupackage;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
@@ -16,6 +17,7 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudokupackage.exceptions.FileDaoException;
+import sudokupackage.exceptions.OpenSaveException;
 
 
 public class GameWindow {
@@ -105,11 +107,15 @@ public class GameWindow {
 
     @FXML
     private void handleButtonOpenAction(ActionEvent actionEvent) {
+        String fileName;
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open file");
-            String fileName = fileChooser.showOpenDialog(null).toString();
-
+            try {
+                fileName = fileChooser.showOpenDialog(null).toString();
+            } catch (RuntimeException e) {
+                throw new OpenSaveException();
+            }
             if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
                 board = (SudokuBoardView) fileSudokuBoardDao.read();
@@ -125,25 +131,33 @@ public class GameWindow {
                     }
                 }
             }
+        } catch (OpenSaveException e) {
+            logger.warn("File not selected");
         } catch (FileDaoException e) {
-            logger.warn("Wrong or not selected file");
+            logger.error("Cannot open selected file");
         }
     }
 
     @FXML
     private void handleButtonSaveAction(ActionEvent actionEvent) {
+        String fileName;
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save file");
-            String fileName = fileChooser.showSaveDialog(null).toString();
-
+            try {
+                fileName = fileChooser.showSaveDialog(null).toString();
+            } catch (RuntimeException e) {
+                throw new OpenSaveException();
+            }
             if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
                 fileSudokuBoardDao.write(board);
             }
 
-        } catch (FileDaoException e) {
+        } catch (OpenSaveException e) {
             logger.warn("File not selected");
+        } catch (FileDaoException e) {
+            logger.error("Cannot save file");
         }
     }
 

@@ -49,10 +49,13 @@ public class StartMenu {
         );
     }
 
-    private Locale changeLocal() {
+    private Locale changeLocal() throws LanguageException {
         Locale locale = null;
-
-        this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
+        try {
+            this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
+        } catch (NullPointerException e) {
+            throw new LanguageException("Language not selected", e);
+        }
         if (language.equals(bundle.getString("langEN"))) {
             locale = new Locale("en");
             Locale.setDefault(locale);
@@ -69,29 +72,43 @@ public class StartMenu {
         try {
             bundle = ResourceBundle.getBundle("Language", this.changeLocal());
             StageLoader.buildStage("/startMenu.fxml", bundle);
+        } catch (LanguageException e) {
+            logger.warn("Can't change the language due to null value");
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    bundle.getString("warnNotLanguage"), ButtonType.OK);
+            alert.show();
         } catch (StageException e) {
             logger.error("Problems with language interface change.");
         }
     }
 
-    @FXML
-    private void handleButtonAction(ActionEvent event) throws LevelException {
+    private Levels getSelectedLevel() throws LevelException {
         try {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
-            choice = choice.valueOf(chosenLevel);
+            return choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
+            throw new LevelException(bundle.getString("levelExceptionMsg"), e);
+        }
+    }
+
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+        try {
+            choice = getSelectedLevel();
+        } catch (LevelException e) {
             logger.warn("Level of difficulty not selected.");
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
-            throw new LevelException(bundle.getString("levelExceptionMsg"), e);
         }
+
+
 
         try {
             StageLoader.buildNewStage("/gameWindow.fxml", "style.css",
                     "titleSudokuGameWindow", bundle);
         } catch (StageException e) {
-            logger.error("gameWindow.fxml not found");
+            logger.error("Cannot load gameWindow.fxml");
         }
     }
 }
