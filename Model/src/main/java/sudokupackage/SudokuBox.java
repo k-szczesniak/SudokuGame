@@ -10,7 +10,7 @@ public class SudokuBox extends SudokuParts {
     }
 
     @Override
-    protected SudokuBox clone() throws CloneNotSupportedException {
+    protected SudokuBox clone() {
         List<SudokuField> fieldList = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             fieldList.add(new SudokuField(this.getValues(i)));

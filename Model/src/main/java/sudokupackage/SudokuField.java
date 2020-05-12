@@ -6,11 +6,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudokupackage.exceptions.BadFieldValueException;
+import sudokupackage.exceptions.CompareException;
 
 
 public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
 
     private static final Logger logger = LoggerFactory.getLogger(SudokuField.class);
+
+    private transient ResourceBundle bundle = ResourceBundle.getBundle("Language");
 
     private int value;
 
@@ -35,7 +38,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     public int compareTo(SudokuField o) {
         if (o == null) {
             logger.error("Compared object is null.");
-            throw new NullPointerException();
+            throw new CompareException(bundle.getString("compareExceptionMsg"));
         }
         if (this.equals(o)) {
             return 0;
@@ -44,7 +47,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     }
 
     @Override
-    protected SudokuField clone() throws CloneNotSupportedException {
+    protected SudokuField clone() {
         SudokuField cloneField = new SudokuField(this.getValue());
         return cloneField;
     }

@@ -19,7 +19,7 @@ public class SudokuBoard implements Serializable, Cloneable {
     private List<SudokuBox> boxes;
 
     @Override
-    protected SudokuBoard clone() throws CloneNotSupportedException {
+    protected SudokuBoard clone() {
         SudokuBoard cloneBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

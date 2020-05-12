@@ -2,6 +2,7 @@ package sudokupackage;
 
 import org.junit.jupiter.api.Test;
 import sudokupackage.exceptions.BadFieldValueException;
+import sudokupackage.exceptions.CompareException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,7 +63,7 @@ class SudokuFieldTest {
         assertTrue(sudokuField1.compareTo(sudokuField2) > 0);
         assertTrue(sudokuField1.compareTo(sudokuField3) < 0);
         assertTrue(sudokuField1.compareTo(sudokuField4) == 0);
-        assertThrows(NullPointerException.class, () ->{
+        assertThrows(CompareException.class, () ->{
             sudokuField1.compareTo(null);
         });
     }

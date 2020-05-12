@@ -54,7 +54,7 @@ public class StartMenu {
         try {
             this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
         } catch (NullPointerException e) {
-            throw new LanguageException("Language not selected", e);
+            throw new LanguageException(bundle.getString("languageExceptionMsg"), e);
         }
         if (language.equals(bundle.getString("langEN"))) {
             locale = new Locale("en");
