@@ -2,12 +2,10 @@ package sudokupackage;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.StageException;
 
 public class MainApp extends Application {
 
@@ -15,15 +13,10 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Language");
+        ResourceBundle bundle = ResourceBundle.getBundle("Language");
         try {
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("/startMenu.fxml"), resourceBundle);
-            primaryStage.setTitle("Choice Window");
-            primaryStage.setScene(new Scene(root, 480, 350));
-            primaryStage.show();
-        } catch (Exception e) {
-
+            StageLoader.buildStage(primaryStage, "/startMenu.fxml","Menu", bundle);
+        } catch (StageException e) {
             logger.error("startMenu.fxml not found.");
         }
     }

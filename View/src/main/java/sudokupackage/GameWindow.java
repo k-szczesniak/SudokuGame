@@ -70,7 +70,7 @@ public class GameWindow {
                 field[i][j] = new TextField();
                 try {
                     integerProperty[i][j] = builder.bean(board
-                            .getSudokuField(i, j)).name("valuexddd")
+                            .getSudokuField(i, j)).name("value")
                             .getter("getValue")
                             .setter("setValue")
                             .build();

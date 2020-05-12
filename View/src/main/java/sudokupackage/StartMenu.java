@@ -1,24 +1,19 @@
 package sudokupackage;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudokupackage.exceptions.LanguageException;
 import sudokupackage.exceptions.LevelException;
-
+import sudokupackage.exceptions.StageException;
 
 public class StartMenu {
 
@@ -73,13 +68,9 @@ public class StartMenu {
     private void handleButtonSetLangAction(ActionEvent actionEvent) throws LanguageException {
         try {
             bundle = ResourceBundle.getBundle("Language", this.changeLocal());
-            Parent pane = FXMLLoader.load(getClass()
-                    .getResource("/startMenu.fxml"), bundle);
-            anchorChoice.getChildren().setAll(pane);
-
-        } catch (Exception e) {
+            StageLoader.buildStage("/startMenu.fxml", bundle);
+        } catch (StageException e) {
             logger.error("Problems with language interface change.");
-            throw new LanguageException(bundle.getString("languageExceptionMsg"), e);
         }
     }
 
@@ -97,16 +88,9 @@ public class StartMenu {
         }
 
         try {
-            Parent root1;
-            root1 = FXMLLoader.load(getClass().getClassLoader()
-                    .getResource("gameWindow.fxml"), bundle);
-            Stage stage = new Stage();
-            stage.setTitle(bundle.getString("titleSudokuGameWindow"));
-            Scene scene = new Scene(root1, 700, 700);
-            scene.getStylesheets().add("style.css");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
+            StageLoader.buildNewStage("/gameWindow.fxml", "style.css",
+                    "titleSudokuGameWindow", bundle);
+        } catch (StageException e) {
             logger.error("gameWindow.fxml not found");
         }
     }
