@@ -5,6 +5,10 @@ public class OpenSaveException extends StageException {
         super();
     }
 
+    public OpenSaveException(Throwable cause) {
+        super(cause);
+    }
+
     public OpenSaveException(String message, Throwable cause) {
         super(message, cause);
     }

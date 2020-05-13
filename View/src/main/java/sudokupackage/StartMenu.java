@@ -74,11 +74,13 @@ public class StartMenu {
             StageLoader.buildStage("/startMenu.fxml", bundle);
         } catch (LanguageException e) {
             logger.warn("Can't change the language due to null value");
+            logger.debug("Can't change the language due to null value", e);
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLanguage"), ButtonType.OK);
             alert.show();
         } catch (StageException e) {
             logger.error("Problems with language interface change.");
+            logger.debug("Problems with language interface change.", e);
         }
     }
 
@@ -93,10 +95,12 @@ public class StartMenu {
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
+        choice = null;
         try {
             choice = getSelectedLevel();
         } catch (LevelException e) {
             logger.warn("Level of difficulty not selected.");
+            logger.debug("Level of difficulty not selected.", e);
             Alert alert = new Alert(Alert.AlertType.WARNING,
                     bundle.getString("warnNotLevel"), ButtonType.OK);
             alert.show();
@@ -109,6 +113,7 @@ public class StartMenu {
                     "titleSudokuGameWindow", bundle);
         } catch (StageException e) {
             logger.error("Cannot load gameWindow.fxml");
+            logger.debug("Cannot load gameWindow.fxml", e);
         }
     }
 }

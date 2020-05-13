@@ -5,6 +5,10 @@ public class StageException extends Exception {
         super();
     }
 
+    public StageException(Throwable cause) {
+        super(cause);
+    }
+
     public StageException(String message, Throwable cause) {
         super(message, cause);
     }

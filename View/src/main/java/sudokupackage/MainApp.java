@@ -18,6 +18,7 @@ public class MainApp extends Application {
             StageLoader.buildStage(primaryStage, "/startMenu.fxml","Menu", bundle);
         } catch (StageException e) {
             logger.error("Cannot load startMenu.fxml.");
+            logger.debug("Cannot load startMenu.fxml.", e);
         }
     }
 

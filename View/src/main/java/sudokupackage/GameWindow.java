@@ -25,6 +25,8 @@ public class GameWindow {
     @FXML
     private GridPane sudokuGrid;
 
+    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
+
     private Levels choice;
     private JavaBeanIntegerProperty[][] integerProperty = new JavaBeanIntegerProperty[9][9];
     private TextField[][] field = new TextField[9][9];
@@ -81,6 +83,7 @@ public class GameWindow {
 
                 } catch (NoSuchMethodException e) {
                     logger.error("Problems with integerProperty build.");
+                    logger.debug("Problems with integerProperty build.", e);
                 }
                 if (board.get(i, j) != 0) {
                     field[i][j].setDisable(true);
@@ -110,11 +113,11 @@ public class GameWindow {
         String fileName;
         try {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open file");
+            fileChooser.setTitle(bundle.getString("openDialogWindow"));
             try {
                 fileName = fileChooser.showOpenDialog(null).toString();
             } catch (RuntimeException e) {
-                throw new OpenSaveException();
+                throw new OpenSaveException(e);
             }
             if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
@@ -133,8 +136,10 @@ public class GameWindow {
             }
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
+            logger.debug("File not selected", e);
         } catch (FileDaoException e) {
             logger.error("Cannot open selected file");
+            logger.debug("Cannot open selected file", e);
         }
     }
 
@@ -143,11 +148,11 @@ public class GameWindow {
         String fileName;
         try {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save file");
+            fileChooser.setTitle(bundle.getString("saveDialogWindow"));
             try {
                 fileName = fileChooser.showSaveDialog(null).toString();
             } catch (RuntimeException e) {
-                throw new OpenSaveException();
+                throw new OpenSaveException(e);
             }
             if (fileName != null) {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
@@ -156,8 +161,10 @@ public class GameWindow {
 
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
+            logger.debug("File not selected", e);
         } catch (FileDaoException e) {
             logger.error("Cannot save file");
+            logger.debug("Cannot save file", e);
         }
     }
 
@@ -173,7 +180,6 @@ public class GameWindow {
 
     @FXML
     private void handleButtonCheckAction(ActionEvent actionEvent) {
-        ResourceBundle bundle = ResourceBundle.getBundle("Language");
         if (board.checkBoard()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     bundle.getString("CheckResultInformationWin"), ButtonType.OK);
