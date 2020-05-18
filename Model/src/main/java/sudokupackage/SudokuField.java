@@ -13,8 +13,6 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
 
     private static final Logger logger = LoggerFactory.getLogger(SudokuField.class);
 
-    private transient ResourceBundle bundle = ResourceBundle.getBundle("Language");
-
     private int value;
 
     public SudokuField(int value) {
@@ -29,8 +27,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
         if (value >= 0 && value < 10) {
             this.value = value;
         } else {
-            throw new BadFieldValueException(ResourceBundle.getBundle("Language")
-                    .getString("badFieldExceptionMsg"));
+            throw new BadFieldValueException("badFieldExceptionMsg");
         }
     }
 
@@ -38,7 +35,7 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     public int compareTo(SudokuField o) {
         if (o == null) {
             logger.error("Compared object is null.");
-            throw new CompareException(bundle.getString("compareExceptionMsg"));
+            throw new CompareException("compareExceptionMsg");
         }
         if (this.equals(o)) {
             return 0;

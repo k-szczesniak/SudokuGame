@@ -5,6 +5,7 @@ import sudokupackage.exceptions.DaoException;
 import sudokupackage.exceptions.FileDaoException;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,5 +38,13 @@ class FileSudokuBoardDaoTest {
         assertThrows(DaoException.class, () -> {
             fileSudokuBoard.write(sudokuBoard);
         });
+    }
+
+    @Test
+    public void testExceptionLanguage(){
+        FileDaoException e = new FileDaoException("fileDaoExceptionMsgRead");
+        ResourceBundle bundle =  ResourceBundle.getBundle("Language");
+        String text = bundle.getString("fileDaoExceptionMsgRead");
+        assertEquals(e.getLocalizedMessage(), text);
     }
 }

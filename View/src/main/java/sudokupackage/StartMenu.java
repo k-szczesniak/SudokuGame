@@ -54,7 +54,7 @@ public class StartMenu {
         try {
             this.language = comboBoxLang.getSelectionModel().getSelectedItem().toString();
         } catch (NullPointerException e) {
-            throw new LanguageException(bundle.getString("languageExceptionMsg"), e);
+            throw new LanguageException("languageExceptionMsg", e);
         }
         if (language.equals(bundle.getString("langEN"))) {
             locale = new Locale("en");
@@ -89,7 +89,7 @@ public class StartMenu {
             String chosenLevel = comboBoxLevel.getSelectionModel().getSelectedItem().toString();
             return choice.valueOf(chosenLevel);
         } catch (NullPointerException e) {
-            throw new LevelException(bundle.getString("levelExceptionMsg"), e);
+            throw new LevelException("levelExceptionMsg", e);
         }
     }
 

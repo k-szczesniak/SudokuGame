@@ -14,8 +14,6 @@ import sudokupackage.exceptions.FileDaoException;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
-    private transient ResourceBundle bundle = ResourceBundle.getBundle("Language");
-
     private static final Logger logger = LoggerFactory.getLogger(FileSudokuBoardDao.class);
 
     private static final long serialVersionUID = 42L;
@@ -34,7 +32,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Exception during execute read() method.");
             logger.debug("Exception during execute read() method.", e);
-            throw new FileDaoException(bundle.getString("fileDaoExceptionMsgRead"), e);
+            throw new FileDaoException("fileDaoExceptionMsgRead", e);
         }
     }
 
@@ -46,7 +44,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         } catch (IOException e) {
             logger.error("Exception during execute write() method.");
             logger.debug("Exception during execute write() method.", e);
-            throw new FileDaoException(bundle.getString("fileDaoExceptionMsgWrite"), e);
+            throw new FileDaoException("fileDaoExceptionMsgWrite", e);
         }
     }
 
