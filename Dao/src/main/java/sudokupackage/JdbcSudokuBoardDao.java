@@ -1,6 +1,9 @@
 package sudokupackage;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,20 +26,25 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     @Override
     public SudokuBoard read() throws DaoException {
 
-        var url = "jdbc:h2:~/sudokudb";
-        var query = "select * from test";
+        Connection connection = connect();
 
-        try (Connection con = DriverManager.getConnection(url);
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(query)) {
+        String selectData = "select tableName, board from "
+                + "SudokuBoard" + " where tableName=?";
 
-            while (rs.next()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectData)) {
+            preparedStatement.setString(1, fileName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
-                System.out.printf(String.valueOf(rs.getString(1)));
+            byte[] buf = resultSet.getBytes(2);
+            ObjectInputStream objectIn = null;
+            if (buf != null) {
+                objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
             }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            Object deserializedBoard = objectIn.readObject();
+            return (SudokuBoard) deserializedBoard;
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -60,12 +68,12 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         var url = "jdbc:h2:~/sudokudb";
         var query = "select * from test";
 
-        String createTable = "create table " + "SudokuBoard5"
+        String createTable = "create table if not exists " + "SudokuBoard"
                 + "(tableName varchar(100) primary key not null, "
                 + "board blob)";
 
 
-        String insertData = "INSERT INTO SudokuBoard5(tableName, "
+        String insertData = "INSERT INTO SudokuBoard(tableName, "
                 + "board) VALUES (?, ?)";
 
         Connection con = connect();

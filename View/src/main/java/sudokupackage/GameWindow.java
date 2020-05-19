@@ -145,6 +145,42 @@ public class GameWindow {
     }
 
     @FXML
+    private void handleButtonOpendbAction(ActionEvent actionEvent) {
+        String fileName;
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(bundle.getString("openDialogWindow"));
+            try {
+                fileName = fileChooser.showSaveDialog(null).toString();
+            } catch (RuntimeException e) {
+                throw new OpenSaveException(e);
+            }
+            if (fileName != null) {
+                Dao<SudokuBoard> databaseSudokuBoardDao =
+                        SudokuBoardDaoFactory.getDatabaseDao(fileName);
+                board = (SudokuBoardView) databaseSudokuBoardDao.read();
+            }
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    field[i][j].setDisable(false);
+                    field[i][j].setText("");
+                    integerProperty[i][j].setValue(board.get(i, j));
+                    if (!board.getIsEditable(i, j)) {
+                        field[i][j].setDisable(true);
+                    }
+                }
+            }
+        } catch (OpenSaveException e) {
+            logger.warn("File not selected");
+            logger.debug("File not selected", e);
+        } catch (DaoException e) {
+            logger.error("Cannot open selected file");
+            logger.debug("Cannot open selected file", e);
+        }
+    }
+
+    @FXML
     private void handleButtonSaveAction(ActionEvent actionEvent) {
         String fileName;
         try {
