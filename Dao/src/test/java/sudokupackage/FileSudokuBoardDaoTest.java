@@ -12,14 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileSudokuBoardDaoTest {
 
     @Test
-    public void writeAndReadTest() throws FileDaoException {
+    public void writeAndReadTest() throws DaoException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoard sudokuBoard2;
+        SudokuBoard sudokuBoard2 = null;
         Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao("SudokuBoardFile.txt");
 
         fileSudokuBoardDao.write(sudokuBoard);
 
         sudokuBoard2 = fileSudokuBoardDao.read();
+
         assertEquals(sudokuBoard,sudokuBoard2);
     }
 

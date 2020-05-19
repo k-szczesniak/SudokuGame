@@ -1,9 +1,9 @@
 package sudokupackage;
 
-import sudokupackage.exceptions.FileDaoException;
+import sudokupackage.exceptions.DaoException;
 
 public interface Dao<T> extends AutoCloseable {
-    public T read() throws FileDaoException;
+    public T read() throws DaoException;
 
-    public void write(T obj) throws FileDaoException;
+    public void write(T obj) throws DaoException;
 }

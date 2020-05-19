@@ -35,6 +35,7 @@
             <Menu style="-fx-font-size: 18px;" text="%VBoxOptions">
                 <MenuItem onAction="#handleButtonOpenAction" text="%VBoxOptionsOpen" />
                 <MenuItem onAction="#handleButtonSaveAction" text="%VBoxOptionsSave" />
+                <MenuItem onAction="#handleButtonSavedbAction" text="zapisz db" />
             </Menu>
             <Menu style="-fx-font-size: 18px;" text="%VboxMore">
                 <MenuItem onAction="#handleButtonShowAuthorsAction" text="%VBoxMoreAuthors" />

@@ -16,6 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.DaoException;
 import sudokupackage.exceptions.FileDaoException;
 import sudokupackage.exceptions.OpenSaveException;
 
@@ -55,7 +56,7 @@ public class GameWindow {
 
             @Override
             public Number fromString(String string) {
-                if (string == null) {
+                if (string.length() != 1) {
                     return 0;
                 } else {
                     try {
@@ -137,7 +138,7 @@ public class GameWindow {
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
             logger.debug("File not selected", e);
-        } catch (FileDaoException e) {
+        } catch (DaoException e) {
             logger.error("Cannot open selected file");
             logger.debug("Cannot open selected file", e);
         }
@@ -162,9 +163,33 @@ public class GameWindow {
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
             logger.debug("File not selected", e);
-        } catch (FileDaoException e) {
+        } catch (DaoException e) {
             logger.error("Cannot save file");
             logger.debug("Cannot save file", e);
+        }
+    }
+
+    @FXML
+    private void handleButtonSavedbAction(ActionEvent actionEvent) {
+
+        String fileName;
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(bundle.getString("saveDialogWindow"));
+            try {
+                fileName = fileChooser.showSaveDialog(null).toString();
+            } catch (RuntimeException e) {
+                throw new OpenSaveException(e);
+            }
+            if (fileName != null) {
+                Dao<SudokuBoard> fileSudokuBoardDao =
+                        SudokuBoardDaoFactory.getDatabaseDao(fileName);
+                fileSudokuBoardDao.write(board);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (OpenSaveException e) {
+            e.printStackTrace();
         }
     }
 
