@@ -1,6 +1,5 @@
 package sudokupackage;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,6 +44,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     public SudokuBoard read() throws DatabaseDaoException {
 
         Connection connection = connect();
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throw new DatabaseDaoException(throwables);
+        }
 
         String selectData = "select tableName, board from "
                 + "SudokuBoard" + " where tableName=?";
@@ -60,6 +64,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
             }
             Object deserializedBoard = objectIn.readObject();
+            connection.commit();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("Connection close failed");
+                logger.debug("Connection close failed", e);
+                throw new DatabaseDaoException("closeConnectionException", e);
+            }
             return (SudokuBoard) deserializedBoard;
         } catch (SQLException e) {
             logger.error("Failed to execute query in read method.");
@@ -70,6 +82,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.debug("Failed to read an object from database.", e);
             throw new DatabaseDaoException(e);
         }
+
     }
 
     @Override
@@ -83,8 +96,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         String insertData = "INSERT INTO SudokuBoard(tableName, "
                 + "board) VALUES (?, ?)";
 
-        Connection con = connect();
-        try (Statement st = con.createStatement()) {
+        Connection connection = connect();
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throw new DatabaseDaoException(throwables);
+        }
+        try (Statement st = connection.createStatement()) {
             st.execute(createTable);
         } catch (SQLException e) {
             logger.error("Failed to execute query in write method.");
@@ -92,18 +110,18 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             throw new DatabaseDaoException("queryException", e);
         }
 
-        try (PreparedStatement preparedStatement = con.prepareStatement(insertData)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertData)) {
             preparedStatement.setString(1, fileName);
             preparedStatement.setObject(2, obj);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             logger.error("Failed to execute query in write method.");
             logger.debug("Failed to execute query in write method.", e);
             throw new DatabaseDaoException("queryException", e);
         }
-
         try {
-            con.close();
+            connection.close();
         } catch (SQLException e) {
             logger.error("Connection close failed");
             logger.debug("Connection close failed", e);
