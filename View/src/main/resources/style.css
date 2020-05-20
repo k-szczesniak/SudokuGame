@@ -24,3 +24,22 @@
 #VBox{
     -fx-cursor: hand;
 }
+
+#sudokuName {
+    -fx-background-color: lightgrey;
+    -fx-min-width: 200;
+    -fx-cursor: hand;
+    -fx-border-style: none;
+    -fx-border-color: white;
+    -fx-border-width: 0px;
+    -fx-background-radius: 0px;
+    -fx-border-radius: 0px;
+    -fx-opacity: 1;
+    -fx-font-size: 18;
+    -fx-alignment: center;
+    -fx-min-height: 15;
+}
+
+#sudokuName:hover {
+    -fx-cursor: hand;
+}

@@ -35,15 +35,20 @@
             <Menu style="-fx-font-size: 18px;" text="%VBoxOptions">
                 <MenuItem onAction="#handleButtonOpenAction" text="%VBoxOptionsOpen" />
                 <MenuItem onAction="#handleButtonSaveAction" text="%VBoxOptionsSave" />
-                <MenuItem onAction="#handleButtonSavedbAction" text="%VBoxOptionsSaveDb" />
-                <MenuItem onAction="#handleButtonOpendbAction" text="%VBoxOptionsOpenDb" />
             </Menu>
             <Menu style="-fx-font-size: 18px;" text="%VboxMore">
                 <MenuItem onAction="#handleButtonShowAuthorsAction" text="%VBoxMoreAuthors" />
             </Menu>
             <Menu style="-fx-font-size: 18px;" text="%VboxGame">
-                <MenuItem onAction="#handleButtonCheckAction" text="%VboxCheck"/>
-                <MenuItem onAction="#handleButtonRandAction" text="%VboxRand"/>
+                <MenuItem onAction="#handleButtonCheckAction" text="%VboxCheck" />
+                <MenuItem onAction="#handleButtonRandAction" text="%VboxRand" />
+            </Menu>
+            <Menu style="-fx-font-size: 18px;" text="%VBoxDataOption">
+                <MenuItem onAction="#handleButtonSavedbAction" text="%VBoxOptionsSaveDb" />
+                <MenuItem onAction="#handleButtonOpendbAction" text="%VBoxOptionsOpenDb" />
+               <graphic>
+                  <TextField fx:id="sudokuName"/>
+               </graphic>
             </Menu>
         </MenuBar>
         </VBox>
