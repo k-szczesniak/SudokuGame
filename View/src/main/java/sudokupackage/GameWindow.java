@@ -1,6 +1,5 @@
 package sudokupackage;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
@@ -17,7 +16,6 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudokupackage.exceptions.DaoException;
-import sudokupackage.exceptions.FileDaoException;
 import sudokupackage.exceptions.OpenSaveException;
 
 
@@ -44,6 +42,19 @@ public class GameWindow {
         board.solveGame();
         board.calculateHiddenPostions(choice.getNumberOfcells());
         fillSudokuGrid();
+    }
+
+    private void fillSudoku() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                field[i][j].setDisable(false);
+                field[i][j].setText("");
+                integerProperty[i][j].setValue(board.get(i, j));
+                if (!board.getIsEditable(i, j)) {
+                    field[i][j].setDisable(true);
+                }
+            }
+        }
     }
 
     private void fillSudokuGrid() {
@@ -124,17 +135,7 @@ public class GameWindow {
                 Dao<SudokuBoard> fileSudokuBoardDao = SudokuBoardDaoFactory.getFileDao(fileName);
                 board = (SudokuBoardView) fileSudokuBoardDao.read();
             }
-
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    field[i][j].setDisable(false);
-                    field[i][j].setText("");
-                    integerProperty[i][j].setValue(board.get(i, j));
-                    if (!board.getIsEditable(i, j)) {
-                        field[i][j].setDisable(true);
-                    }
-                }
-            }
+            fillSudoku();
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
             logger.debug("File not selected", e);
@@ -160,23 +161,13 @@ public class GameWindow {
                         SudokuBoardDaoFactory.getDatabaseDao(fileName);
                 board = (SudokuBoardView) databaseSudokuBoardDao.read();
             }
-
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    field[i][j].setDisable(false);
-                    field[i][j].setText("");
-                    integerProperty[i][j].setValue(board.get(i, j));
-                    if (!board.getIsEditable(i, j)) {
-                        field[i][j].setDisable(true);
-                    }
-                }
-            }
+            fillSudoku();
         } catch (OpenSaveException e) {
             logger.warn("File not selected");
             logger.debug("File not selected", e);
         } catch (DaoException e) {
-            logger.error("Cannot open selected file");
-            logger.debug("Cannot open selected file", e);
+            logger.error("Cannot open selected from database file");
+            logger.debug("Cannot open selected from database file", e);
         }
     }
 
@@ -222,10 +213,12 @@ public class GameWindow {
                         SudokuBoardDaoFactory.getDatabaseDao(fileName);
                 fileSudokuBoardDao.write(board);
             }
-        } catch (DaoException e) {
-            e.printStackTrace();
         } catch (OpenSaveException e) {
-            e.printStackTrace();
+            logger.warn("File not selected");
+            logger.debug("File not selected", e);
+        } catch (DaoException e) {
+            logger.error("Cannot save file to database");
+            logger.debug("Cannot save file to database", e);
         }
     }
 
@@ -259,6 +252,5 @@ public class GameWindow {
         sudokuGrid.getChildren().clear();
         startSudoku();
     }
-
 
 }

@@ -10,21 +10,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import sudokupackage.exceptions.DaoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudokupackage.exceptions.DatabaseDaoException;
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
-    private String fileName;
+    private static final Logger logger = LoggerFactory.getLogger(FileSudokuBoardDao.class);
 
-    public JdbcSudokuBoardDao() {
-    }
+    private String fileName;
 
     public JdbcSudokuBoardDao(String fileName) {
         this.fileName = fileName;
     }
 
+    private Connection connect() throws DatabaseDaoException {
+        Connection connection = null;
+        try {
+            Class.forName("org.h2.Driver");
+            connection = DriverManager.getConnection("jdbc:h2:~/sudokudb");
+        } catch (ClassNotFoundException e) {
+            logger.error("Driver not found.");
+            logger.debug("Driver not found", e);
+            throw new DatabaseDaoException("driverException", e);
+        } catch (SQLException e) {
+            logger.error("Cannot establish connection");
+            logger.debug("Cannot establish connection", e);
+            throw new DatabaseDaoException("connectionException", e);
+        }
+        return connection;
+    }
+
     @Override
-    public SudokuBoard read() throws DaoException {
+    public SudokuBoard read() throws DatabaseDaoException {
 
         Connection connection = connect();
 
@@ -43,30 +61,19 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
             Object deserializedBoard = objectIn.readObject();
             return (SudokuBoard) deserializedBoard;
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Connection connect() {
-        Connection connection = null;
-        try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:~/sudokudb");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed to execute query in read method.");
+            logger.debug("Failed to execute query in read method.", e);
+            throw new DatabaseDaoException("queryException", e);
+        } catch (IOException | ClassNotFoundException e) {
+            logger.error("Failed to read an object from database.");
+            logger.debug("Failed to read an object from database.", e);
+            throw new DatabaseDaoException(e);
         }
-        return connection;
     }
 
     @Override
-    public void write(SudokuBoard obj) throws DaoException {
-
-        var url = "jdbc:h2:~/sudokudb";
-        var query = "select * from test";
+    public void write(SudokuBoard obj) throws DatabaseDaoException {
 
         String createTable = "create table if not exists " + "SudokuBoard"
                 + "(tableName varchar(100) primary key not null, "
@@ -80,7 +87,9 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         try (Statement st = con.createStatement()) {
             st.execute(createTable);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed to execute query in write method.");
+            logger.debug("Failed to execute query in write method.", e);
+            throw new DatabaseDaoException("queryException", e);
         }
 
         try (PreparedStatement preparedStatement = con.prepareStatement(insertData)) {
@@ -88,13 +97,17 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             preparedStatement.setObject(2, obj);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed to execute query in write method.");
+            logger.debug("Failed to execute query in write method.", e);
+            throw new DatabaseDaoException("queryException", e);
         }
 
         try {
             con.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Connection close failed");
+            logger.debug("Connection close failed", e);
+            throw new DatabaseDaoException("closeConnectionException", e);
         }
     }
 

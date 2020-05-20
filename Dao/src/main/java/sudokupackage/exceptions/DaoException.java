@@ -6,6 +6,10 @@ public class DaoException extends Exception {
 
     ResourceBundle bundle = ResourceBundle.getBundle("Language");
 
+    public DaoException(Throwable cause) {
+        super(cause);
+    }
+
     public DaoException() {
     }
 
