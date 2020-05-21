@@ -15,6 +15,27 @@ import sudokupackage.exceptions.DatabaseDaoException;
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
+    private Connection connection = null;
+
+    {
+        try {
+            try {
+                Class.forName("org.h2.Driver");
+                connection = DriverManager.getConnection("jdbc:h2:~/sudokudb");
+            } catch (ClassNotFoundException e) {
+                logger.error("Driver not found.");
+                logger.debug("Driver not found", e);
+                throw new DatabaseDaoException("driverException", e);
+            } catch (SQLException e) {
+                logger.error("Cannot establish connection");
+                logger.debug("Cannot establish connection", e);
+                throw new DatabaseDaoException("connectionException", e);
+            }
+        } catch (DatabaseDaoException e) {
+            System.out.println("idk");
+        }
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(FileSudokuBoardDao.class);
 
     private String fileName;
@@ -23,32 +44,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         this.fileName = fileName;
     }
 
-    private Connection connect() throws DatabaseDaoException {
-        Connection connection = null;
-        try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:~/sudokudb");
-        } catch (ClassNotFoundException e) {
-            logger.error("Driver not found.");
-            logger.debug("Driver not found", e);
-            throw new DatabaseDaoException("driverException", e);
-        } catch (SQLException e) {
-            logger.error("Cannot establish connection");
-            logger.debug("Cannot establish connection", e);
-            throw new DatabaseDaoException("connectionException", e);
-        }
-        return connection;
-    }
-
     @Override
     public SudokuBoard read() throws DatabaseDaoException {
-
-        Connection connection = connect();
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException throwables) {
-            throw new DatabaseDaoException(throwables);
-        }
 
         String selectData = "select tableName, board from "
                 + "SudokuBoard" + " where tableName=?";
@@ -65,13 +62,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
             Object deserializedBoard = objectIn.readObject();
             connection.commit();
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error("Connection close failed");
-                logger.debug("Connection close failed", e);
-                throw new DatabaseDaoException("closeConnectionException", e);
-            }
+
             return (SudokuBoard) deserializedBoard;
         } catch (SQLException e) {
             logger.error("Failed to execute query in read method.");
@@ -96,7 +87,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         String insertData = "INSERT INTO SudokuBoard(tableName, "
                 + "board) VALUES (?, ?)";
 
-        Connection connection = connect();
         try {
             connection.setAutoCommit(false);
         } catch (SQLException throwables) {
@@ -120,16 +110,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.debug("Failed to execute query in write method.", e);
             throw new DatabaseDaoException("queryException", e);
         }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error("Connection close failed");
-            logger.debug("Connection close failed", e);
-            throw new DatabaseDaoException("closeConnectionException", e);
-        }
+
     }
 
     @Override
     public void close() throws Exception {
+        connection.close();
     }
 }

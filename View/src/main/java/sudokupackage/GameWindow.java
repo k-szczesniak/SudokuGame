@@ -152,14 +152,17 @@ public class GameWindow {
         try {
             fileName = sudokuName.getText().toString();
             if (fileName != null) {
-                Dao<SudokuBoard> databaseSudokuBoardDao =
-                        SudokuBoardDaoFactory.getDatabaseDao(fileName);
-                board = (SudokuBoardView) databaseSudokuBoardDao.read();
+                try (Dao<SudokuBoard> databaseSudokuBoardDao =
+                             SudokuBoardDaoFactory.getDatabaseDao(fileName)) {
+                    board = (SudokuBoardView) databaseSudokuBoardDao.read();
+                } catch (DaoException e) {
+                    logger.error("Cannot open selected from database file");
+                    logger.debug("Cannot open selected from database file", e);
+                }
             }
             fillSudoku();
-        } catch (DaoException e) {
-            logger.error("Cannot open selected from database file");
-            logger.debug("Cannot open selected from database file", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         sudokuName.clear();
     }
@@ -196,13 +199,16 @@ public class GameWindow {
         try {
             fileName = sudokuName.getText().toString();
             if (fileName != null) {
-                Dao<SudokuBoard> fileSudokuBoardDao =
-                        SudokuBoardDaoFactory.getDatabaseDao(fileName);
-                fileSudokuBoardDao.write(board);
+                try (Dao<SudokuBoard> fileSudokuBoardDao =
+                             SudokuBoardDaoFactory.getDatabaseDao(fileName)) {
+                    fileSudokuBoardDao.write(board);
+                } catch (DaoException e) {
+                    logger.error("Cannot save file to database");
+                    logger.debug("Cannot save file to database", e);
+                }
             }
-        } catch (DaoException e) {
-            logger.error("Cannot save file to database");
-            logger.debug("Cannot save file to database", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         sudokuName.clear();
     }
