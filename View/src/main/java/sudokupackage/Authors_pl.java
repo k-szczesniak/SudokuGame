@@ -2,7 +2,7 @@ package sudokupackage;
 
 import java.util.ListResourceBundle;
 
-public class Authors extends ListResourceBundle {
+public class Authors_pl extends ListResourceBundle {
     @Override
     protected Object[][] getContents() {
         return new Object[][]{
@@ -11,3 +11,4 @@ public class Authors extends ListResourceBundle {
         };
     }
 }
+

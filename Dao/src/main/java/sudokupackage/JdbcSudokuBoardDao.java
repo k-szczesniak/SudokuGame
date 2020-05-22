@@ -18,22 +18,16 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     private Connection connection = null;
 
     {
-        try {
             try {
                 Class.forName("org.h2.Driver");
                 connection = DriverManager.getConnection("jdbc:h2:~/sudokudb");
             } catch (ClassNotFoundException e) {
                 logger.error("Driver not found.");
                 logger.debug("Driver not found", e);
-                throw new DatabaseDaoException("driverException", e);
             } catch (SQLException e) {
                 logger.error("Cannot establish connection");
                 logger.debug("Cannot establish connection", e);
-                throw new DatabaseDaoException("connectionException", e);
             }
-        } catch (DatabaseDaoException e) {
-            System.out.println("idk");
-        }
     }
 
     private static final Logger logger = LoggerFactory.getLogger(FileSudokuBoardDao.class);
@@ -61,7 +55,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
             }
             Object deserializedBoard = objectIn.readObject();
-            connection.commit();
 
             return (SudokuBoard) deserializedBoard;
         } catch (SQLException e) {
@@ -92,15 +85,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         } catch (SQLException throwables) {
             throw new DatabaseDaoException(throwables);
         }
-        try (Statement st = connection.createStatement()) {
-            st.execute(createTable);
-        } catch (SQLException e) {
-            logger.error("Failed to execute query in write method.");
-            logger.debug("Failed to execute query in write method.", e);
-            throw new DatabaseDaoException("queryException", e);
-        }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertData)) {
+        try (Statement st = connection.createStatement();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertData)) {
+            st.execute(createTable);
             preparedStatement.setString(1, fileName);
             preparedStatement.setObject(2, obj);
             preparedStatement.executeUpdate();

@@ -215,7 +215,8 @@ public class GameWindow {
 
     @FXML
     private void handleButtonShowAuthorsAction(ActionEvent actionEvent) {
-        ResourceBundle authors = ResourceBundle.getBundle("sudokupackage.Authors");
+        ResourceBundle authors = ResourceBundle
+                .getBundle("sudokupackage.Authors", bundle.getLocale());
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
                 authors.getObject("1").toString() + ", "
                         + authors.getObject("2"), ButtonType.OK);
